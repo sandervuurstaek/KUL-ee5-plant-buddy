@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -61,18 +62,17 @@ class _LoginState extends State<Login> {
 
   Widget build(BuildContext context) {
 
-
      Widget logoImageArea = Container(
-       margin: EdgeInsets.only(left: 20,right: 20),
+       margin: EdgeInsets.only(left: 60.w,right: 60.w),
        width: double.infinity,
        alignment: Alignment.center,
        child:  Image.asset("asset/loginpage.png",
-         height: 200,
+         height: 600.h,
        ),
      );
 
      Widget inputTextArea = Container(
-       margin: const EdgeInsets.only(left: 20,right: 20),
+       margin:  EdgeInsets.only(left: 60.w,right: 60.w),
        decoration: const BoxDecoration(
          borderRadius: BorderRadius.all(Radius.circular(8)),
          color: Colors.white
@@ -86,11 +86,11 @@ class _LoginState extends State<Login> {
                controller: _userNameController,
                focusNode: _focusNodeUserName,
                decoration: InputDecoration(
-                 border: const OutlineInputBorder(
-                   borderRadius: BorderRadius.all( Radius.circular(10)),
+                 border:  OutlineInputBorder(
+                   borderRadius: BorderRadius.all( Radius.circular(30.r)),
                    borderSide: BorderSide(
                      color: Colors.grey,
-                     width: 2.0
+                     width: 6.0.r
                    )
                  ),
                  labelText: "Username",
@@ -104,16 +104,16 @@ class _LoginState extends State<Login> {
                  _username=value;
                },
              ),
-             const SizedBox(height: 10,),
+              SizedBox(height: 30.h),
              TextFormField(
                focusNode: _focusNodePassword,
                obscureText: _passwordVisible,
                decoration: InputDecoration(
-                   border: const OutlineInputBorder(
-                       borderRadius: BorderRadius.all( Radius.circular(10)),
+                   border: OutlineInputBorder(
+                       borderRadius: BorderRadius.all( Radius.circular(30.r)),
                        borderSide: BorderSide(
                            color: Colors.grey,
-                           width: 2.0
+                           width: 6.0.r
                        )
                    ),
                  labelText: "Password",
@@ -141,8 +141,8 @@ class _LoginState extends State<Login> {
      );
 
      Widget loginButtonArea = Container(
-       margin: const EdgeInsets.only(left: 20,right: 20, top:40),
-       height: 50,
+       margin:  EdgeInsets.only(left: 60.w,right: 60.w, top:80.h),
+       height: 150.h,
        width: double.infinity,
        child: ElevatedButton(
          style: ButtonStyle(
@@ -150,13 +150,13 @@ class _LoginState extends State<Login> {
            backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(
                18, 144, 122, 1.0)),
            shape: MaterialStateProperty.all(RoundedRectangleBorder(
-               borderRadius: BorderRadius.circular(35))),
+               borderRadius: BorderRadius.circular(100.r))),
          ),
-         child: const Text("sign in",
+         child: Text("sign in",
            style: TextStyle(
                fontWeight: FontWeight.bold,
                color: Colors.white,
-               fontSize: 20
+               fontSize: 60.sp
            ),
          ),
          onPressed: (){
@@ -165,7 +165,7 @@ class _LoginState extends State<Login> {
      );
 
      Widget thridLoginArea = Container(
-       margin: const EdgeInsets.only(left: 20,right: 20, top: 30),
+       margin:  EdgeInsets.only(left: 60.w,right: 60.w, top:80.h),
        child: Column(
          children: [
            Row(
@@ -173,25 +173,25 @@ class _LoginState extends State<Login> {
              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
              children: [
                Container(
-                 width: 80,
-                 height: 1.0,
+                 width: 250.w,
+                 height: 3.0.h,
                  color: Colors.grey,
                ),
-               const Text("Third party sign in",
+               Text("Third party sign in",
                  style: TextStyle(fontWeight: FontWeight.bold,
                  color: Colors.grey,
-                 fontSize: 15,
+                 fontSize: 40.sp,
                  )
                ),
                Container(
-                 width: 80,
-                 height: 1.0,
+                 width: 250.w,
+                 height: 3.0.h,
                  color: Colors.grey,
                ),
              ],
            ),
-           const SizedBox(
-             height: 18,
+            SizedBox(
+             height: 50.h,
            ),
            Row(
              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -199,23 +199,23 @@ class _LoginState extends State<Login> {
                IconButton(
                    onPressed: (){
                },
-                   icon: Icon(FontAwesomeIcons.weixin),
+                   icon: const Icon(FontAwesomeIcons.weixin),
                  color: Colors.green[200],
-                 iconSize: 40.0,
+                 iconSize: 120.r,
                ),
                IconButton(
                  onPressed: (){
                  },
-                 icon: Icon(FontAwesomeIcons.facebook),
+                 icon: const Icon(FontAwesomeIcons.facebook),
                  color: Colors.green[200],
-                 iconSize: 40.0,
+                 iconSize: 120.r,
                ),
                IconButton(
                  onPressed: (){
                  },
                  icon: const Icon(FontAwesomeIcons.google),
                  color: Colors.green[200],
-                 iconSize: 40.0,
+                 iconSize: 120.r,
                ),
              ],
            )
@@ -224,13 +224,13 @@ class _LoginState extends State<Login> {
      );
 
      Widget bottomArea = Container(
-       margin: const EdgeInsets.only(left: 20,right: 20, top: 20),
+       margin: EdgeInsets.only(left: 60.w,right: 60.w, top: 60.h),
        child:
            TextButton(onPressed: (){}, child: Text(
              "forget password?",
              style: TextStyle(
                color: Colors.blue[400],
-               fontSize: 16.0,
+               fontSize: 45.0.sp,
              ),
            )
        ),

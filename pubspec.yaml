@@ -36,7 +36,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   random_pk: any
   font_awesome_flutter: any
-  flutter_screenutil: ^0.4.2
+  flutter_screenutil: ^5.3.1
+  toast: ^0.1.5
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +65,12 @@ flutter:
   assets:
      - asset/startpage.png
      - asset/loginpage.png
+     - asset/hopelessLevel.jpg
+     - asset/beginnerLevel.jpg
+     - asset/experiencedLevel.jpg
+     - asset/skilledLevel.jpg
+     - asset/masterLevel.jpg
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
