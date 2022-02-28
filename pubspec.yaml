@@ -43,6 +43,10 @@ dependencies:
   adaptive_components: ^0.0.3
   adaptive_navigation: ^0.0.5
   adaptive_breakpoints: ^0.0.5
+  random_pk: any
+  font_awesome_flutter: any
+  flutter_screenutil: ^5.3.1
+  toast: ^0.1.5
 
 dev_dependencies:
   flutter_test:
@@ -70,9 +74,15 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+     - asset/startpage.png
+     - asset/loginpage.png
+     - asset/hopelessLevel.jpg
+     - asset/beginnerLevel.jpg
+     - asset/experiencedLevel.jpg
+     - asset/skilledLevel.jpg
+     - asset/masterLevel.jpg
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
