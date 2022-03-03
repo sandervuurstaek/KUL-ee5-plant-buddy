@@ -3,8 +3,8 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_weather_bg_null_safety/flutter_weather_bg.dart';
 import 'package:intl/intl.dart';
-import 'package:plantbuddy/models/location_handler.dart';
-import 'package:plantbuddy/models/weather/weather.dart';
+import 'package:plantbuddy/controller/location_handler.dart';
+import 'package:plantbuddy/model/weather/weather.dart';
 import 'package:plantbuddy/widgets/text.dart';
 
 /// Card with weather information based on [lat], [lon] and [timestamp].

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:location/location.dart';
-import 'package:plantbuddy/models/rest_request.dart';
+import 'package:plantbuddy/model/rest_request.dart';
 
 /// Class with static methods for handling location
 class LocationHandler {
