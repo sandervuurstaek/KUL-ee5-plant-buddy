@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
-import 'package:plantbuddy/models/location_handler.dart';
+import 'package:plantbuddy/controller/location_handler.dart';
 import 'package:plantbuddy/widgets/adaptive_widget.dart';
 import 'package:plantbuddy/widgets/custom_scroll_behaviour.dart';
 import 'package:plantbuddy/widgets/text.dart';
