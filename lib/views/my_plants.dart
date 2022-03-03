@@ -1,4 +1,6 @@
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:plantbuddy/widgets/text.dart';
 import 'package:plantbuddy/widgets/transparant_appbar.dart';
 
 /// Plants page
@@ -21,11 +23,18 @@ class _MyPlantsState extends State<MyPlants> {
           IconButton(onPressed: () {}, icon: const Icon(Icons.settings))
         ],
       ),
-      body: Column(
-        children: const [
-          Text("test"),
-        ],
+      body: FutureBuilder(
+        future: null,
+        builder: (context, snapshot) => Padding(
+          padding: const EdgeInsets.all(16),
+          child: Header3Text(
+            "You don't have any plants monitored yet",
+            textStyle: TextStyle(color: Colors.grey[700]),
+          ),
+        ),
       ),
+      floatingActionButton:
+          FloatingActionButton(onPressed: () {}, child: const Icon(Icons.add)),
     );
   }
 }

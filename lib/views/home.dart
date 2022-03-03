@@ -3,6 +3,7 @@ import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:plantbuddy/views/my_plants.dart';
 import 'package:plantbuddy/views/overview.dart';
+import 'package:plantbuddy/views/settings.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -33,10 +34,10 @@ class _HomeState extends State<Home> {
       body: SafeArea(
         child: PageView(
           controller: _pageController,
-          children: [
-            const Overview(),
-            const MyPlants(),
-            Container(color: Colors.orange),
+          children: const [
+            Overview(),
+            MyPlants(),
+            Settings(),
           ],
           onPageChanged: (index) {
             setState(() => _currentPage = index);
