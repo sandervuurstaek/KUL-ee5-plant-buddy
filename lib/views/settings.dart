@@ -16,11 +16,8 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TransparantAppbar(
+      appBar: const TransparantAppbar(
         title: "Settings",
-        actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.settings))
-        ],
       ),
       body: FutureBuilder(
         future: null,
@@ -32,8 +29,6 @@ class _SettingsState extends State<Settings> {
           ),
         ),
       ),
-      floatingActionButton:
-          FloatingActionButton(onPressed: () {}, child: const Icon(Icons.add)),
     );
   }
 }
