@@ -87,3 +87,4 @@ class Header3Text extends Text {
               : textStyle.copyWith(fontSize: header3Size),
         );
 }
+

@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:plantbuddy/views/home.dart';
-import 'package:plantbuddy/ui/startpage.dart';
+import 'package:plantbuddy/views/startpage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -67,7 +67,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool loggedIn = true;
+  bool loggedIn = false;
 
   @override
   Widget build(BuildContext context) {
