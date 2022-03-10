@@ -4,6 +4,7 @@ import 'package:plantbuddy/widgets/transparant_appbar.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 
+
 /// Settings page
 ///
 ///
@@ -41,7 +42,6 @@ class _SettingsState extends State<Settings> {
                 ),
               ],
             ),
-
           ],
         ),
       ),

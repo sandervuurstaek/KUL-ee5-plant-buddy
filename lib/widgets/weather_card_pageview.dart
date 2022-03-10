@@ -3,6 +3,7 @@ import 'package:location/location.dart';
 import 'package:plantbuddy/controller/location_handler.dart';
 import 'package:plantbuddy/widgets/adaptive_widget.dart';
 import 'package:plantbuddy/widgets/custom_scroll_behaviour.dart';
+import 'package:plantbuddy/widgets/loading.dart';
 import 'package:plantbuddy/widgets/text.dart';
 import 'package:plantbuddy/widgets/weather_card.dart';
 
@@ -10,6 +11,8 @@ import 'package:plantbuddy/widgets/weather_card.dart';
 ///
 /// [days] specify the amount of days starting from today, should be at least 1.
 class WeatherCardPageView extends StatelessWidget {
+  static const int _defaultHour = 15;
+
   final double? height;
   final int days;
   late final PageController _pageController;
@@ -34,7 +37,7 @@ class WeatherCardPageView extends StatelessWidget {
     DateTime now = DateTime.now();
     DateTime date = index == 0
         ? now
-        : DateTime.utc(now.year, now.month, now.day + index, 12);
+        : DateTime.utc(now.year, now.month, now.day + index, _defaultHour);
 
     return WeatherCard(
       lat: location.data!.latitude ?? 0,
@@ -49,7 +52,7 @@ class WeatherCardPageView extends StatelessWidget {
       future: LocationHandler.getCurrentLocation(),
       builder: (context, AsyncSnapshot<LocationData?> location) =>
           !location.hasData
-              ? Center(child: Header3Text("Loading weather..."))
+              ? const Center(child: Loading())
               : location.data == null
                   ? Header3Text("Error loading weather")
                   : AdaptiveWidget(
