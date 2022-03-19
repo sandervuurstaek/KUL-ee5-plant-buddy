@@ -1,13 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:plantbuddy/views/IndoorOrOutdoor.dart';
+import 'package:plantbuddy/views/ProfilePage.dart';
 import 'package:plantbuddy/views/registerpage.dart';
-import 'package:plantbuddy/widgets/text.dart';
+
+import '../widgets/text.dart';
 import '../widgets/transparant_appbar.dart';
 
-class ChooseSkillLevel extends StatelessWidget {
-  final String mode;
-  const ChooseSkillLevel({Key? key, required this.mode}) : super(key: key);
 
+
+class IndoorOrOutdoorPage extends StatelessWidget {
+  final String mode;
+  const IndoorOrOutdoorPage({Key? key, required this.mode}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     Widget topArea = Container(
@@ -15,8 +18,8 @@ class ChooseSkillLevel extends StatelessWidget {
       width: double.infinity,
       child: Column(
         children: [
-           Header1Text(
-            "Skill level",
+          Header1Text(
+            "Indoor or Outdoor",
             textAlign: TextAlign.center,
             textStyle: const TextStyle(
               color: Color.fromRGBO(72, 75, 75, 1.0),
@@ -29,7 +32,7 @@ class ChooseSkillLevel extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Header3Text(
-            "How skilled are you at taking care of plants?",
+            "Would you like help with plants indoor, outdoor or both?",
             textAlign: TextAlign.center,
             textStyle: const TextStyle(
               color: Color.fromRGBO(125, 128, 128, 1.0),
@@ -39,46 +42,42 @@ class ChooseSkillLevel extends StatelessWidget {
       ),
     );
     List<String> _skillLevelImageList = [
-      "asset/hopelessLevel.jpg",
-      "asset/beginnerLevel.jpg",
-      "asset/experiencedLevel.jpg",
-      "asset/skilledLevel.jpg",
-      "asset/masterLevel.jpg",
+      "asset/indoor.jpg",
+      "asset/outdoor.jpg",
+      "asset/IndoorOutdoor.jpg",
     ];
     List<String> _skillLevelList = [
-      "Hopeless/The only plants that are still alive are the ones that never lived",
-      "Beginner/Every now and then I manage to keep a plant alive",
-      "Experienced/I have my plants under control, we are alright",
-      "Skilled/What I don't know about plants is not worth working",
-      "Master/I'm Linne!"
+      "Indoor/For indoor plant care",
+      "Outdoor/For potted plants in garden, balcony or terrace",
+      "Indoor & Outdoor/For plant care indoor, and potted plants outdoor/balcony",
     ];
 
-    Widget skillSelectionArea = ListView.separated(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: _skillLevelList.length,
-      separatorBuilder: (BuildContext context, int index) {
-        return const Divider(
-          color: Colors.grey,
-        );
-      },
-      itemBuilder: (BuildContext context, int index) {
-        var l1 = _skillLevelList[index];
-        List<String> splitString = l1.split('/');
-        var level = splitString[0];
-        var description = splitString[1];
-        return GestureDetector(
-          onTap: () {
-            if(mode=='Settings')
+    Widget IndoorOrOutdoorSelectionArea = ListView.separated(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: _skillLevelList.length,
+        separatorBuilder: (BuildContext context, int index) {
+          return const Divider(
+            color: Colors.grey,
+          );
+        },
+        itemBuilder: (BuildContext context, int index) {
+          var l1 = _skillLevelList[index];
+          List<String> splitString = l1.split('/');
+          var level = splitString[0];
+          var description = splitString[1];
+          return GestureDetector(
+            onTap: () {
+              if(mode=='Settings')
               {
                 Navigator.of(context).pop();
               }
-            else{
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return const IndoorOrOutdoorPage(mode: 'create account');
-            }));
-            }
-          },
+              else{
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const RegisterPage();
+                }));
+              }
+            },
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -121,9 +120,9 @@ class ChooseSkillLevel extends StatelessWidget {
               ),
             ),
 
-        );
-      }
-      );
+          );
+        }
+    );
     return Scaffold(
       appBar: const TransparantAppbar(
         title: '',
@@ -137,7 +136,7 @@ class ChooseSkillLevel extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          skillSelectionArea,
+          IndoorOrOutdoorSelectionArea,
         ],
       ),
     );

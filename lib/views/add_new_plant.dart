@@ -1,63 +1,110 @@
-import 'package:dotted_border/dotted_border.dart';
+
 import 'package:flutter/material.dart';
 import 'package:plantbuddy/views/set_plant_parameters.dart';
+import 'package:plantbuddy/widgets/specialButton.dart';
 import 'package:plantbuddy/widgets/text.dart';
-import 'package:plantbuddy/widgets/transparant_appbar.dart';
 
-class AddNewPlant extends StatelessWidget {
-  const AddNewPlant({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const TransparantAppbar(title: "New plant"),
-      body: Container(
-        constraints: const BoxConstraints(maxWidth: 1024),
-        child: Center(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(32),
-                child: DottedBorder(
-                  borderType: BorderType.RRect,
-                  radius: const Radius.circular(32),
-                  color: Colors.grey,
-                  padding: const EdgeInsets.all(16),
-                  dashPattern: const [10, 8],
-                  strokeWidth: 6,
-                  child: Image.network(
-                    "https://webstockreview.net/images/clipart-smile-sunflower-18.png",
-                  ),
+class AddNewPlant {
+
+  static Future addNewPlant(BuildContext context) async {
+    return showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      isScrollControlled: false,
+        context: context,
+        builder: (BuildContext context){
+          return Container(
+            height: MediaQuery.of(context).size.height / 5,
+            clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(32.0),
+                  topRight: const Radius.circular(32.0),
                 ),
               ),
-              const SizedBox(
-                height: 32,
-              ),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.only(left: 32, right: 32),
-                child: ElevatedButton(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SetPlantParameters(),
+            child: Column(
+              children: [
+              SizedBox(
+              height: 50,
+              child: Stack(
+                textDirection: TextDirection.rtl,
+                children: [
+                  Center(
+                    child: Header3Text(
+                      'Add New Device',
+                      textStyle: TextStyle(
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
-                  child: Header2Text("Connect new device"),
-                  style: ButtonStyle(
-                    padding: MaterialStateProperty.all(const EdgeInsets.all(8)),
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100),
+                  IconButton(
+                      icon: Icon(Icons.close),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      }),
+                ],
+              ),
+            ),
+              Divider(height: 1.0),
+                Container(
+                  margin: EdgeInsets.all(20),
+                        child: RoundedButton(data: "Connect New Device", pressed: () async {
+                          Navigator.of(context).pop();
+                          _setPlantParameters(context);
+                        }),
+                      )
+              ],
+            ),
+          );
+    });
+  }
+  static Future _setPlantParameters(BuildContext context) async{
+    return showModalBottomSheet(
+        isScrollControlled: false,
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (BuildContext context){
+          return Container(
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: const Radius.circular(32.0),
+                topRight: const Radius.circular(32.0),
+              ),
+            ),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 50,
+                  child: Stack(
+                    textDirection: TextDirection.rtl,
+                    children: [
+                      Center(
+                        child: Header3Text(
+                          'Plant parameters',
+                          textStyle: TextStyle(
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
-                    ),
+                      TextInButton(
+
+                          data: 'Done', pressed: () {
+                        Navigator.of(context).pop();
+                      }
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+                Divider(height: 1.0),
+                Container(
+                  child:
+                  SetPlantParameters(),
+                ),
+              ],
+            ),
+          );
+        });
+
   }
 }

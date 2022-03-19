@@ -6,7 +6,7 @@ import 'package:plantbuddy/widgets/text.dart';
 class TransparantAppbar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final List<Widget>? actions;
-  const TransparantAppbar({Key? key, required this.title, this.actions})
+  const TransparantAppbar({Key? key, required this.title, this.actions,})
       : super(key: key);
 
   @override
@@ -14,7 +14,8 @@ class TransparantAppbar extends StatelessWidget implements PreferredSizeWidget {
     return AdaptiveAppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      title: Header1Text(title),
+      title: Header2Text(title,textStyle: const TextStyle(fontWeight: FontWeight.bold,)),
+      centerTitle: true,
       actions: actions,
       titleTextStyle: const TextStyle(color: Colors.black),
       iconThemeData: const IconThemeData(color: Colors.black),

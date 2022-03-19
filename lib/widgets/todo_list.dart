@@ -15,11 +15,16 @@ class _TodoListState extends State<TodoList> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: null,
-      builder: (context, snapshot) => Padding(
-        padding: const EdgeInsets.all(16),
+      builder: (context, snapshot) => Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: Colors.white,
+        ),
+        margin: const EdgeInsets.all(16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Icon(CommunityMaterialIcons.leaf, color: Colors.green,size: 64,),
             Header3Text(
               "All tasks completed",
               textStyle: TextStyle(color: Colors.grey[700]),

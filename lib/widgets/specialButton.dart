@@ -9,6 +9,7 @@ class RoundedButton extends ElevatedButton {
   RoundedButton({Key? key, required this.data, required this.pressed}) : super(
       key: key,
     style: ButtonStyle(
+
       //backgroundColor: Theme.of(context).theme,
       shape: MaterialStateProperty.all(RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(32))),
@@ -29,7 +30,7 @@ class RoundedButton extends ElevatedButton {
 
 class GoBackButton extends IconButton{
   final BuildContext context;
-  GoBackButton(this.context) : super(
+  GoBackButton(this.context, {Key? key}) : super(key: key,
     onPressed: () => Navigator.of(context).pop(),
     icon: const Icon(
       Icons.arrow_back,

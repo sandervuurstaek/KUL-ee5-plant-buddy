@@ -19,10 +19,10 @@ class _OverviewState extends State<Overview> {
   Widget weather = Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Padding(
+     /* Padding(
         padding: const EdgeInsets.fromLTRB(18, 2, 8, 2),
         child: Header2Text("Weather"),
-      ),
+      ),*/
       WeatherCardPageView(
         height: 128,
         days: 3,
@@ -34,7 +34,7 @@ class _OverviewState extends State<Overview> {
     children: [
       Padding(
         padding: const EdgeInsets.fromLTRB(18, 8, 8, 2),
-        child: Header2Text("Todo"),
+        child: Header3Text("Todo",textStyle: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold)),
       ),
       const TodoList(),
     ],

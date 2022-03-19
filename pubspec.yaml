@@ -51,6 +51,7 @@ dependencies:
   routemaster: ^0.9.5
   dotted_border: ^2.0.0+2
   flutter_form_builder: ^7.1.1
+  flutter_settings_screens: ^0.3.2-null-safety
 
 dev_dependencies:
   flutter_test:
@@ -87,6 +88,10 @@ flutter:
      - asset/skilledLevel.jpg
      - asset/masterLevel.jpg
      - asset/369.gif
+     - asset/indoor.jpg
+     - asset/outdoor.jpg
+     - asset/IndoorOutdoor.jpg
+     - asset/connectNewdevice.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

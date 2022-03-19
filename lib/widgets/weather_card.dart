@@ -58,11 +58,11 @@ class _WeatherCardState extends State<WeatherCard>
           child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) => Card(
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
+                  borderRadius: BorderRadius.circular(16)),
               child: ClipPath(
                 clipper: ShapeBorderClipper(
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
+                      borderRadius: BorderRadius.circular(16)),
                 ),
                 child: Stack(
                   alignment: const Alignment(0, 0),
