@@ -1,8 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:plantbuddy/views/IndoorOrOutdoor.dart';
-import 'package:plantbuddy/views/chooseSkillLevel.dart';
 import 'package:plantbuddy/widgets/ActionSheet.dart';
 import 'package:plantbuddy/widgets/loading.dart';
 import 'package:plantbuddy/widgets/locationText.dart';
@@ -39,46 +37,17 @@ class _ProfilePageState extends State<ProfilePage> {
         leading: Icon(Icons.gps_fixed_rounded),
         trailing: Icon(Icons.arrow_forward_ios,size: 16,),
      title: Header3Text('Location',
-      textStyle: TextStyle(fontWeight: FontWeight.bold,),
     ),
     value: getlocation(context),
     onPressed: (BuildContext context) async {
-         var thing= await showCupertinoModalPopup(context: context, builder: (context)=>ActionSheet());
+         await showCupertinoModalPopup(context: context, builder: (context)=>actionSheet("Update your location?",context,  [ CupertinoActionSheetAction(onPressed:(){
+           Navigator.of(context).pop();
+         } , child: Header3Text("update location",textStyle: const TextStyle(
+           color: Colors.blueAccent,
+         ) ))]));
     },
     ),
-    SettingsTile.navigation(
-    leading: Icon(Icons.cloud_circle_outlined),
-      trailing: Icon(Icons.arrow_forward_ios,size: 16,),
-    title:  Header3Text('Indoor/Outdoor',
-    textStyle: TextStyle(fontWeight: FontWeight.bold,),
-    ),
-    onPressed: (BuildContext context){
-      Navigator.push(context, MaterialPageRoute(builder: (context){
-        return const IndoorOrOutdoorPage(mode: "Settings");
-      }));
-    },
-    ),
-    SettingsTile.navigation(
-    leading: Icon(Icons.local_activity_rounded),
-    trailing: Icon(Icons.arrow_forward_ios,size: 16,),
-    title:  Header3Text('Skill Level',
-    textStyle: TextStyle(fontWeight: FontWeight.bold,),
-    ),
-    onPressed: (BuildContext context){
-      Navigator.push(context, MaterialPageRoute(builder: (context){
-        return const ChooseSkillLevel(mode: "Settings");
-      }));
-    },
-    ),
-    SettingsTile.navigation(
-    leading: Icon(Icons.balcony),
-      trailing: Icon(Icons.arrow_forward_ios,size: 16,),
-    title:  Header3Text('Sites',
-    textStyle: TextStyle(fontWeight: FontWeight.bold,),
-    ),
-    onPressed: (BuildContext context){
-    },
-    ),]
+   ]
     );
   }
   @override

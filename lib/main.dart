@@ -1,12 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:plantbuddy/controller/auth_manager.dart';
 import 'package:plantbuddy/views/home.dart';
 import 'package:plantbuddy/views/startpage.dart';
 
 Future<void> main() async {
-  await Settings.init(cacheProvider: SharePreferenceCache());
   runApp(const Main());
 }
 

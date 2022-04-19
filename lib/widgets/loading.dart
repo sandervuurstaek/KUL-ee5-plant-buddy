@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Loading extends StatelessWidget {
@@ -5,6 +6,8 @@ class Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset("asset/369.gif");
+    return CupertinoActivityIndicator(
+      radius: 10,
+    );
   }
 }

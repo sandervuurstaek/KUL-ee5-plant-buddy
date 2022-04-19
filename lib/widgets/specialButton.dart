@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plantbuddy/widgets/text.dart';
 
+import '../model/Camera.dart';
+
 class RoundedButton extends ElevatedButton {
   final String data;
   final void Function() pressed;
@@ -15,9 +17,10 @@ class RoundedButton extends ElevatedButton {
           borderRadius: BorderRadius.circular(32))),
     ),
     child: Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(16.0),
       child: Header2Text(
         data,
+        textAlign: TextAlign.center,
         textStyle: TextStyle(
           fontWeight: FontWeight.bold,
           color: Colors.white,
@@ -67,6 +70,19 @@ class GoogleButton extends IconButton{
     icon: const Icon(FontAwesomeIcons.google),
     color: Colors.green[200],
     iconSize: 40,);
+}
+
+class CameraButton extends IconButton{
+  final BuildContext context;
+  CameraButton(this.context,{Key? key}) : super(key: key,
+  onPressed: (){
+    Camera.changePhoto(context);
+  },
+  icon: Icon(Icons.camera_alt_rounded),
+  color: Colors.grey,
+    iconSize: 36,)
+  ;
+
 }
 
 class TextInButton extends TextButton{

@@ -22,7 +22,6 @@ class _accountPageState extends State<accountPage> {
         tiles:
         [SettingsTile.navigation(
           title: Header3Text('Password',
-            textStyle: TextStyle(fontWeight: FontWeight.bold,),
           ),
           trailing: Icon(Icons.arrow_forward_ios,size: 16,),
           leading: Icon(Icons.lock),
@@ -37,7 +36,7 @@ class _accountPageState extends State<accountPage> {
     return SettingsSection(tiles: [
       SettingsTile.navigation(
         title: Header3Text('Delete account and all data',
-          textStyle: TextStyle(fontWeight: FontWeight.bold,color: Colors.redAccent),
+          textStyle: TextStyle(color: Colors.redAccent),
         ),
         leading: Icon(Icons.logout,color: Colors.redAccent,),
         onPressed: (BuildContext context){

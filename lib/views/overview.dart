@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plantbuddy/widgets/TodoCard.dart';
 import 'package:plantbuddy/widgets/adaptive_widget.dart';
 import 'package:plantbuddy/widgets/text.dart';
 import 'package:plantbuddy/widgets/todo_list.dart';
@@ -36,7 +37,9 @@ class _OverviewState extends State<Overview> {
         padding: const EdgeInsets.fromLTRB(18, 8, 8, 2),
         child: Header3Text("Todo",textStyle: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold)),
       ),
-      const TodoList(),
+      const TodoCard("Water","Plant1","The temperature is too high up to 36 degree"),
+      TodoCard("Progress update","Plant2","Message2"),
+      TodoCard("Progress update","Plant3","Message3"),
     ],
   );
 

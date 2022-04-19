@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:plantbuddy/views/ProfilePage.dart';
 import 'package:plantbuddy/views/accountPage.dart';
 import 'package:plantbuddy/widgets/Popwindows.dart';
-import 'package:plantbuddy/widgets/icon_widget.dart';
 import 'package:plantbuddy/widgets/text.dart';
 import 'package:plantbuddy/widgets/transparant_appbar.dart';
 import 'package:settings_ui/settings_ui.dart';
@@ -23,22 +21,21 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   List<Header2Text> languageOptions=[
     Header2Text("English"),
-    Header2Text("简体中文（Chinese）"),
+    Header2Text("简体中文（ Simplified Chinese）"),
     Header2Text("Nederlands"),
   ];
   bool notification=true;
 
   SettingsSection buildSettings()=>SettingsSection(
     title: Header3Text('SETTINGS',
-    textStyle: TextStyle(color: Colors.grey)
+    textStyle: const TextStyle(color: Colors.grey)
     ),
     tiles: <SettingsTile>[
       SettingsTile.navigation(
         title: Header3Text('Profile',
-          textStyle: TextStyle(fontWeight: FontWeight.bold,),
           ),
-        trailing: Icon(Icons.arrow_forward_ios,size: 16,),
-        leading: Icon(Icons.face),
+        trailing: const Icon(Icons.arrow_forward_ios,size: 16,),
+        leading: const Icon(Icons.face),
         onPressed: (BuildContext context){
           Navigator.push(context, MaterialPageRoute(builder: (context){
             return const ProfilePage();
@@ -47,10 +44,9 @@ class _SettingsState extends State<Settings> {
       ),
       SettingsTile.navigation(
         title:  Header3Text('Account',
-          textStyle: TextStyle(fontWeight: FontWeight.bold,),
         ),
-        trailing: Icon(Icons.arrow_forward_ios,size: 16,),
-        leading: Icon(Icons.account_box),
+        trailing: const Icon(Icons.arrow_forward_ios,size: 16,),
+        leading: const Icon(Icons.account_box),
         onPressed: (BuildContext context){
           Navigator.push(context, MaterialPageRoute(builder: (context){
             return const accountPage();
@@ -60,7 +56,6 @@ class _SettingsState extends State<Settings> {
 
       SettingsTile.navigation(
         title:  Header3Text('Privacy settings',
-          textStyle: TextStyle(fontWeight: FontWeight.bold,),
         ),
         trailing: Icon(Icons.arrow_forward_ios,size: 16,),
         leading: Icon(Icons.privacy_tip),
@@ -69,7 +64,6 @@ class _SettingsState extends State<Settings> {
       ),
       SettingsTile.switchTile(
         title:  Header3Text('Notifications',
-          textStyle: TextStyle(fontWeight: FontWeight.bold,),
         ),
         leading: Icon(Icons.notification_important),
         onToggle: (value){
@@ -90,7 +84,6 @@ class _SettingsState extends State<Settings> {
     tiles: <SettingsTile>[
       SettingsTile.navigation(
         title:  Header3Text('Contact us',
-          textStyle: TextStyle(fontWeight: FontWeight.bold,),
         ),
         leading: Icon(Icons.contact_mail),
         trailing: Icon(Icons.arrow_forward_ios,size: 16,),
@@ -99,7 +92,6 @@ class _SettingsState extends State<Settings> {
       ),
       SettingsTile.navigation(
         title:  Header3Text('About Plant-buddy',
-          textStyle: TextStyle(fontWeight: FontWeight.bold,),
         ),
         leading: Icon(Icons.question_answer_outlined),
         trailing: Icon(Icons.arrow_forward_ios,size: 16,),

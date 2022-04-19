@@ -1,6 +1,7 @@
 import 'package:adaptive_navigation/adaptive_navigation.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:plantbuddy/model/user.dart';
 import 'package:plantbuddy/views/my_plants.dart';
 import 'package:plantbuddy/views/overview.dart';
 import 'package:plantbuddy/views/settings.dart';
@@ -21,10 +22,10 @@ class _HomeState extends State<Home> {
     return AdaptiveNavigationScaffold(
       selectedIndex: _currentPage,
       destinations: const [
-        AdaptiveScaffoldDestination(title: "Overview", icon: Icons.today),
+        AdaptiveScaffoldDestination(title: "", icon: Icons.home),
         AdaptiveScaffoldDestination(
-            title: "My Plants", icon: CommunityMaterialIcons.sprout),
-        AdaptiveScaffoldDestination(title: "Settings", icon: Icons.settings),
+            title: "", icon: CommunityMaterialIcons.sprout),
+        AdaptiveScaffoldDestination(title: "", icon: Icons.settings),
       ],
       onDestinationSelected: (index) {
         _pageController.jumpToPage(

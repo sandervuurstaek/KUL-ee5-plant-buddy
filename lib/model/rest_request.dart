@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 /// Used for easier REST requests
@@ -10,8 +11,8 @@ class RestRequest {
 
   RestRequest({required this.baseUrl});
 
-  Future<http.Response> httpGet(String path,
-      {Map<String, String>? queryParameters,
+  Future<http.Response> httpGet( String path,
+  {Map<String, String>? queryParameters,
       Map<String, String>? headers}) async {
     return http
         .get(
@@ -21,6 +22,19 @@ class RestRequest {
         .timeout(const Duration(seconds: 5));
   }
 
-  Uri _getUri(String path, Map<String, dynamic>? queryParameters) =>
+  Future<http.Response> httpPost({required String path,
+  Map<String, String>? queryParameters,
+  Map<String, String>? headers}) async {
+    return http
+        .post(
+        _getUri(path),
+      headers: headers,
+      body: jsonEncode(queryParameters),
+    )
+        .timeout(const Duration(seconds: 5));
+  }
+
+
+  Uri _getUri(String path, [Map<String, dynamic>? queryParameters]) =>
       Uri.https(baseUrl, path, queryParameters);
 }

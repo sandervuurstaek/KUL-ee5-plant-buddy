@@ -17,7 +17,15 @@ class _TodoListState extends State<TodoList> {
       future: null,
       builder: (context, snapshot) => Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.25),
+              spreadRadius: 0.25,
+              blurRadius: 20,
+             // offset: Offset(0, 2), // changes position of shadow
+            ),
+          ],
+        borderRadius: BorderRadius.circular(16),
           color: Colors.white,
         ),
         margin: const EdgeInsets.all(16),
