@@ -14,7 +14,7 @@ class TransparantAppbar extends StatelessWidget implements PreferredSizeWidget {
     return AdaptiveAppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      title: Header2Text(title,textStyle: const TextStyle(fontWeight: FontWeight.bold,)),
+      title: Header3Text(title,textStyle: const TextStyle(fontWeight: FontWeight.bold,)),
       centerTitle: true,
       actions: actions,
       titleTextStyle: const TextStyle(color: Colors.black),

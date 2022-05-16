@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:location/location.dart';
-import 'package:plantbuddy/model/rest_request.dart';
+import 'package:plantbuddy/controller/rest_request.dart';
 
 /// Class with static methods for handling location
 class LocationHandler {
@@ -33,7 +33,7 @@ class LocationHandler {
 
   static Future<String?> getCityFromCoordinates(double lat, double lon) =>
       RestRequest(baseUrl: "api.bigdatacloud.net").httpGet(
-        "/data/reverse-geocode-client",
+        path: "/data/reverse-geocode-client",
         queryParameters: {
           "latitude": lat.toString(),
           "longitude": lon.toString(),

@@ -3,9 +3,9 @@ import 'package:location/location.dart';
 import 'package:plantbuddy/controller/location_handler.dart';
 import 'package:plantbuddy/widgets/adaptive_widget.dart';
 import 'package:plantbuddy/widgets/custom_scroll_behaviour.dart';
-import 'package:plantbuddy/widgets/loading.dart';
+import 'package:plantbuddy/widgets/Loading.dart';
 import 'package:plantbuddy/widgets/text.dart';
-import 'package:plantbuddy/widgets/weather_card.dart';
+import 'package:plantbuddy/widgets/Card/weather_card.dart';
 
 /// Pageview with WeatherCards to show the weather for multiple days.
 ///

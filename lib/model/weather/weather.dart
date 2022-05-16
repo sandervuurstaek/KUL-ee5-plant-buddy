@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:flutter_weather_bg_null_safety/flutter_weather_bg.dart';
 import 'package:plantbuddy/controller/location_handler.dart';
-import 'package:plantbuddy/model/rest_request.dart';
+import 'package:plantbuddy/controller/rest_request.dart';
 import 'package:plantbuddy/model/weather/weather_data.dart';
 import 'package:plantbuddy/model/weather/weather_source.dart';
 
@@ -41,7 +41,7 @@ class Weather extends RestRequest {
   Future<int> getWeatherData() async {
     // Api docs: https://brightsky.dev/docs/
     return super.httpGet(
-      "/weather",
+      path: "/weather",
       queryParameters: {
         "lat": lat.toString(),
         "lon": lon.toString(),

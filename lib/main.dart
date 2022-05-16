@@ -1,8 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:plantbuddy/controller/auth_manager.dart';
-import 'package:plantbuddy/views/home.dart';
-import 'package:plantbuddy/views/startpage.dart';
+import 'package:plantbuddy/views/home/home.dart';
+import 'package:plantbuddy/views/startpage/startpage.dart';
 
 Future<void> main() async {
   runApp(const Main());
@@ -55,7 +55,7 @@ class Main extends StatelessWidget {
       home: ValueListenableBuilder(
         valueListenable: AuthManager.loggedInNotifier,
         builder: (context, bool loggedIn, _) =>
-            loggedIn ? const Home() : const Frontpage(),
+            loggedIn ? const Home() : Frontpage(),
       ),
     );
   }
@@ -75,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return loggedIn ? const Home() : const Frontpage();
+    return loggedIn ? const Home() :  Frontpage();
   }
 }
 

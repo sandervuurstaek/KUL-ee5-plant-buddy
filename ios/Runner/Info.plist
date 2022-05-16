@@ -13,6 +13,7 @@
     	<string>Need Location permission</string>
     	<key>NSLocationWhenInUseUsageDescription</key>
     	<string>Need Location permission</string>
+
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
