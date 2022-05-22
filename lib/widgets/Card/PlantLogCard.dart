@@ -3,12 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:plantbuddy/widgets/Decoration/CardDecoration.dart';
 import 'package:plantbuddy/widgets/text.dart';
 
-class TodoCard extends StatelessWidget {
+import '../../controller/RouterManager.dart';
+import '../ActionSheet.dart';
+
+class PlantLogCard extends StatelessWidget {
   final String action;
   final String plantName;
   final String message;
 
-  const TodoCard(this.action,this.plantName, this.message,{Key? key}) : super(key: key);
+  const PlantLogCard(this.action,this.plantName, this.message,{Key? key}) : super(key: key);
+
+
+   _deleteThisLog(BuildContext context) async {
+    await showCupertinoModalPopup(context: context, builder: (context)=>actionSheet("Delete this log ?",context,
+        [ CupertinoActionSheetAction(onPressed:(){
+          RouterManager.toHomepage(context);
+        } , child: Header3Text("Delete",textStyle: const TextStyle(
+          color: Colors.red,
+        ) ))]
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +40,9 @@ class TodoCard extends StatelessWidget {
               radius: 24,
               backgroundImage: AssetImage('asset/plant5.jpg'),
             ),
-            trailing: Icon(Icons.water_drop, color: Colors.blueAccent,),
-              onTap:(){
-
-              }
+            trailing: IconButton(icon: Icon(Icons.not_started_rounded,color: Colors.lightBlueAccent,size: 36,),onPressed: (){
+              _deleteThisLog(context);
+            },),
           ),
           SizedBox(height: 8,),
         ],

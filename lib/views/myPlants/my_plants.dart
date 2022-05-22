@@ -1,7 +1,9 @@
 import 'dart:typed_data';
+import 'package:community_material_icon/community_material_icon.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:plantbuddy/model/user.dart';
-import 'package:plantbuddy/controller/add_new_plant.dart';
+import 'package:plantbuddy/model/User.dart';
+import 'package:plantbuddy/controller/BlueToothController.dart';
 import 'package:plantbuddy/widgets/Card/PlantCard.dart';
 import 'package:plantbuddy/widgets/Decoration/CardDecoration.dart';
 import 'package:plantbuddy/widgets/Loading.dart';
@@ -23,7 +25,7 @@ class MyPlants extends StatefulWidget {
 
 class _MyPlantsState extends State<MyPlants> {
 
-  Future refresh() async {
+  Future _refresh() async {
       setState(() {
       });
   }
@@ -32,25 +34,21 @@ class _MyPlantsState extends State<MyPlants> {
     List<Plant> plants=[];
     for(var m in data)
     {
-      print(m['id']);
-      print(m['device_name']);
-      print(m['picture']);
-      print(m['picture'].toString());
       var image;
       Plant plant;
       if(m['picture']!=null)
         {
          image= Uint8List.fromList(m['picture'].toBytes());
-         plant=Plant(PlantID: m['id'], PlantName: m['device_name'],pict: image);
+         plant=Plant(PlantID: m['id'], PlantName: m['device_name'],pict: image,api_key: m['api_key'], device_identifier: m['device_identifier']);
         }
       else
         {
-          plant=Plant(PlantID: m['id'], PlantName: m['device_name']);
+          plant=Plant(PlantID: m['id'], PlantName: m['device_name'],api_key: m['api_key'], device_identifier: m['device_identifier']);
+          print(m['device_identifier']);
         }
 
       plants.add(plant);
     }
-    //User().updatedInfo=false;
     return User().plants=plants;
   }
 
@@ -66,7 +64,7 @@ class _MyPlantsState extends State<MyPlants> {
           Center(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [Icon(Icons.grass_rounded,color: Colors.green,size: 48,),
+              children: [Icon(CommunityMaterialIcons.sprout,size: 48,color: Theme.of(context).primaryColor,),
                 SizedBox(width: 4,),
                 Header3Text("My Plants",textStyle: TextStyle(fontWeight: FontWeight.bold ),)],
             ),
@@ -91,13 +89,11 @@ class _MyPlantsState extends State<MyPlants> {
               head,
               Expanded(
                 child: RefreshIndicator(
-                  onRefresh: refresh,
+                  onRefresh: _refresh,
                   child: Column(
                     children: [
-                      //const SizedBox(height: 30),
-                     //User().updatedInfo?
                      FutureBuilder<dynamic>(
-                        future: User().getPlants(),
+                        future: User().User_get_Plants(),
                         builder: (context, snapshot) {
                           if(snapshot.connectionState==ConnectionState.done)
                             {
@@ -117,30 +113,23 @@ class _MyPlantsState extends State<MyPlants> {
                                   return errorWidget;
                                 }
                               else{
-                                return nodataWidget;
+                                return  nodataWidget;
                               }
                             }
                           else{
                             return Center(child: Loading());
                           }
                         }
-
-                      )/*:Expanded(
-                        child: Scrollbar(
-                          child: ListView(
-                             children:User().plants.map((e) => PlantCard(e)).toList()
-                     ),
-                        ),
-                      )*/
+                      )
                     ],
                   ),
                 ),
               ),
             ],
           ),
-          floatingActionButton: FloatingActionButton(
-              onPressed: () => AddNewPlant.addNewPlant(context),
-              child: const Icon(Icons.add)),
+          floatingActionButton: !kIsWeb ? FloatingActionButton(
+              onPressed: () => BlueToothController.addNewDevice(context),
+              child: const Icon(Icons.add)) : null,
         );
   }
 }

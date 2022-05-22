@@ -1,9 +1,7 @@
 
 
 import 'dart:convert';
-import 'dart:typed_data';
 
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:plantbuddy/controller/RestRequestHandler.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:plantbuddy/model/Plant.dart';
@@ -12,17 +10,17 @@ import '../widgets/Toast.dart';
 
 class User {
 
-  static final User _userinstance=User._createUser();
-  String? token;
-  int? id;
-  String? firstname;
-  String? lastname;
-  String? email;
+  static final User _userInstance=User._createUser();
+  late String token;
+  late int id;
+  late String firstname;
+  late String lastname;
+  late String email;
   List<Plant> plants=[];
- // bool updatedInfo=true;
+
 
   User._createUser();
-  factory User()=>_userinstance;
+  factory User()=>_userInstance;
 
 
 
@@ -35,9 +33,7 @@ class User {
         "email": email,
         "password": password,
       },
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: _getHeader(false),
     ).then((response) async {
       if (response.statusCode == 200) {
         Map<String, dynamic> json = jsonDecode(response.body);
@@ -60,31 +56,27 @@ class User {
             "email" : email,
              "password": password,
     },
-    headers: {'Content-Type': 'application/json'},
+    headers: _getHeader(false),
     ).then((response) async {
       print(response.statusCode);
       if (response.statusCode == 200) {
         Map<String, dynamic> json = jsonDecode(response.body);
         token=json["token"];
         _getIdFromToken(token);
-        //AuthManager.logined();
-        ToastDialog.show_toast("succefully registered");
+        ToastDialog.show_toast("Successfully registered");
       }
       else{
-        ToastDialog.show_toast("register failed");
+        ToastDialog.show_toast("Register Failed");
       }
       return response.statusCode;
     });
   }
 
 
-  Future<dynamic> getPlants() async {
+  Future<dynamic> User_get_Plants() async {
     return RestRequestHandler.make_database_rest_request().httpGet(
-      path: "/api/user/${id}/devices",
-      headers: {
-        'Authorization': 'Bearer ${token}',
-        'Content-Type': 'application/json'
-      },
+      path: "/api/user/$id/devices",
+      headers: _getHeader(true),
     ).then((response) {
       if(response.statusCode==200)
       {
@@ -95,11 +87,38 @@ class User {
       {
         ToastDialog.show_toast("You should add plants");
       }
+      else if(response.statusCode==401)
+        {
+          ToastDialog.show_toast("Your token is expired, please log in again");
+        }
       else{
+        ToastDialog.show_toast(response.statusCode.toString());
         ToastDialog.show_toast("Failed");
       }
-    });
+    }
+    );
   }
+
+  Map<String, String> _getHeader(bool withToken) {
+    if(withToken)
+      {
+        return {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json'
+        };
+      }
+    else
+      {
+        return {
+          'Content-Type': 'application/json'
+        };
+      }
+
+  }
+
+
+
+
 
 
 
@@ -109,38 +128,40 @@ Future<dynamic> User_get_measurement(int deviceId) async
     path: "/api/user/$id/measurement",
     queryParameters: {
       "deviceId": deviceId.toString(),
-      "limit": 20.toString(),
+      "limit": 1000.toString(),
     },
-    headers: {
-      'Authorization': 'Bearer ${token}',
-      'Content-Type': 'application/json'
-    },
+    headers: _getHeader(true),
   ).then((response) {
     if(response.statusCode==200)
     {
-      ToastDialog.show_toast("get data");
       var data=jsonDecode(response.body);
       return data;
     }
+    else if(response.statusCode==401)
+    {
+      ToastDialog.show_toast("Your token is expired, please log in again");
+    }
     else{
-      ToastDialog.show_toast("Failed");
+      ToastDialog.show_toast("Failed to get data");
     }
   },
       onError: on_error);
 }
 
+
+
   Future<dynamic> UserInfo(){
     return RestRequestHandler.make_database_rest_request().httpGet(
       path: "/api/user/$id",
-      headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json'
-      },
+      headers: _getHeader(true),
     ).then((response) {
       if (response.statusCode == 200) {
         List<dynamic> json = jsonDecode(response.body);
         _getUserInfoFromJson(json);
-        //AuthManager.logined();
+      }
+      else if(response.statusCode==401)
+      {
+        ToastDialog.show_toast("Your token is expired, please log in again");
       }
       else{
         ToastDialog.show_toast("Unable to get User information");
@@ -157,14 +178,15 @@ Future<dynamic> User_get_measurement(int deviceId) async
         queryParameters: {
         'deviceId': deviceId.toString(),
         },
-      headers: {
-        'Authorization': 'Bearer ${token}',
-        'Content-Type': 'application/json'
-      }
+      headers: _getHeader(true)
     ).then(
             (response) async {
           if (response.statusCode == 200) {
             ToastDialog.show_toast("Deleted");
+          }
+          else if(response.statusCode==401)
+          {
+            ToastDialog.show_toast("Your token is expired, please log in again");
           }
           else
           {
@@ -181,9 +203,8 @@ Future<dynamic> User_get_measurement(int deviceId) async
     print(e.message);
     ToastDialog.show_toast(e.toString());
       }
-
-
-
+      
+      
   Future<dynamic> UserAdd_new_device(String deviceName, String deviceIdentifier) async
   {
     return RestRequestHandler.make_database_rest_request().httpPost(
@@ -193,17 +214,18 @@ Future<dynamic> User_get_measurement(int deviceId) async
         "device_identifier": deviceIdentifier,
         "picture" : {}
       },
-      headers: {
-        'Authorization': 'Bearer ${token}',
-        'Content-Type': 'application/json'},
+      headers: _getHeader(true)
     ).then((response) async {
-      var api_key;
       print(response.statusCode);
       if (response.statusCode == 200) {
         print(response.body);
         List json = jsonDecode(response.body);
-        api_key=json[0]["api_key"];
         ToastDialog.show_toast("Saved");
+        return json;
+      }
+      else if(response.statusCode==401)
+      {
+        ToastDialog.show_toast("Your token is expired, please log in again");
       }
       else if(response.statusCode==422)
         {
@@ -212,9 +234,10 @@ Future<dynamic> User_get_measurement(int deviceId) async
       else{
         ToastDialog.show_toast("Save device failed");
       }
-      return api_key;
+      return [];
     });
   }
+
 
 
   Future<dynamic> UserUpdate_device(int deviceID,  String pic, String deviceName) async
@@ -224,9 +247,7 @@ Future<dynamic> User_get_measurement(int deviceId) async
       queryParameters: {
         "deviceId": deviceID.toString(),
       },
-      headers: {
-        'Authorization': 'Bearer ${token}',
-        'Content-Type': 'application/json'},
+      headers: _getHeader(true),
       data: {
         "device_name" : deviceName,
         "picture" : pic
@@ -235,6 +256,10 @@ Future<dynamic> User_get_measurement(int deviceId) async
       print(response.statusCode);
       if (response.statusCode == 200) {
         ToastDialog.show_toast("Saved change");
+      }
+      else if(response.statusCode==401)
+      {
+        ToastDialog.show_toast("Your token is expired, please log in again");
       }
      else{
         ToastDialog.show_toast("Failed to change");
@@ -248,8 +273,8 @@ Future<dynamic> User_get_measurement(int deviceId) async
 
   void _getUserAuthFromJson(Map<String, dynamic> json) {
      token=json["token"];
+     print(token);
      id=json["id"];
-   // _getIdFromToken(token!);
   }
 
   void _getUserInfoFromJson(List<dynamic> json){
@@ -258,16 +283,24 @@ Future<dynamic> User_get_measurement(int deviceId) async
     email=json[0]["email"];
   }
 
-
-
-
-
   _getIdFromToken(String? token)
   {
     if(token!=null)
       {
         Map<String,dynamic> decodedToken=Jwt.parseJwt(token);
         id=decodedToken['user']['id'];
+      }
+  }
+
+  bool checkTokenExpired()
+  {
+    if(token==null)
+      {
+        return true;
+      }
+    else
+      {
+        return Jwt.isExpired(token);
       }
   }
 

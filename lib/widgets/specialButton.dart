@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:plantbuddy/widgets/text.dart';
 
@@ -56,13 +56,15 @@ class CameraButton extends IconButton{
   ;
 
 }
-
+//ignore: must_be_immutable
 class TextInButton extends TextButton{
   final String data;
   final void Function() pressed;
-  TextInButton({Key? key, required this.data, required this.pressed}) : super(key: key, onPressed: pressed,
+  Color color;
+  TextInButton({Key? key, required this.data, required this.pressed, required this.color}) : super(key: key, onPressed: pressed,
       child: Header3Text(
         data,
+        textStyle: TextStyle(color: color),
       ));
 
 }

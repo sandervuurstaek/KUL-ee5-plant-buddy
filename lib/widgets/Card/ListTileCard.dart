@@ -1,12 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Decoration/CardDecoration.dart';
 import '../text.dart';
 
 class ListTileCard extends StatelessWidget {
-  Widget leading;
-  String text;
-   ListTileCard({Key? key ,required this.leading, required this.text}) : super(key: key);
+  final Widget leading;
+  final String text;
+ const  ListTileCard({Key? key ,required this.leading, required this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

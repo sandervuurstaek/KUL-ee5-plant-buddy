@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:plantbuddy/views/myPlants/PlantInfo.dart';
 import 'package:plantbuddy/widgets/Decoration/CardDecoration.dart';
@@ -44,7 +43,7 @@ class PlantCard extends StatelessWidget {
                       trailing: Icon(Icons.arrow_forward_ios),
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context){
-                          return PlantInfo(plant: plant,);
+                          return PlantInfoPage(plant: plant,);
                         }));
                       },
                     )),

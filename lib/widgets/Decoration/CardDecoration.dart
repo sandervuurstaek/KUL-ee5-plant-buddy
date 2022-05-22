@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CardDecoration extends BoxDecoration{
-  double radius;
+ final double radius;
   CardDecoration(this.radius):super(
     boxShadow: [
       BoxShadow(

@@ -1,18 +1,20 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:plantbuddy/controller/RouterManager.dart';
 import 'package:plantbuddy/widgets/Decoration/CardDecoration.dart';
 
-import '../../../views/myPlants/bluetooth/add_new_device.dart';
+import '../../../model/Plant.dart';
 import '../../Toast.dart';
 import '../../text.dart';
 
+//ignore: must_be_immutable
 class ConnectedBluetoothCard extends StatefulWidget {
   final BluetoothDevice device;
-  const ConnectedBluetoothCard({Key? key, required this.device}) : super(key: key);
+  final bool fromAddNew;
+  Plant? plant;
+  ConnectedBluetoothCard({Key? key,this.plant, required this.device, required this.fromAddNew}) : super(key: key);
 
 
   @override
@@ -31,20 +33,47 @@ class _ConnectedBluetoothCardState extends State<ConnectedBluetoothCard> {
         leading: Icon(Icons.bluetooth_connected_sharp,color: Colors.blueAccent,),
         trailing: Header4Text("connected",textStyle: TextStyle(color: Colors.grey),),
         onTap: () async {
-          add_new_device(context);
+          if(widget.fromAddNew)
+            {
+              _add_new_device(context);
+            }
+          else{
+            if(widget.plant!=null && widget.plant?.device_identifier.toString()==widget.device.id.toString() )
+              {
+                await _configureWifi(context);
+              }
+            else{
+              ToastDialog.show_toast("The plant don't have this device!");
+            }
+          }
+
         },
       ),
     );
   }
 
-  void add_new_device(BuildContext context) {
+  Future<void> _configureWifi(BuildContext context) async {
+      List<BluetoothService> services= await widget.device.discoverServices();
+    if(services.isNotEmpty )
+    {
+      RouterManager.gotoEspWithWifi(context, widget.plant!.PlantID, widget.device, widget.plant!.api_key,services, widget.fromAddNew);
+    }
+    else{
+      ToastDialog.show_toast("No Bluetooth service");
+    }
+  }
+
+  void _add_new_device(BuildContext context) {
+
     runZonedGuarded(() async {
       RouterManager.gotoAddNewDevicePage(context, widget.device);
-    },add_new_device_exception_handler);
+    },_add_new_device_exception_handler);
   }
 
-  void add_new_device_exception_handler(dynamic e, StackTrace stack){
 
+
+  void _add_new_device_exception_handler(dynamic e, StackTrace stack){
     ToastDialog.show_toast("Unable to connect with this device");
   }
+
 }

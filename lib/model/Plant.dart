@@ -2,22 +2,12 @@
 import 'dart:typed_data';
 
 class Plant {
-  int PlantID;
+ final int PlantID;
   String PlantName;
-  Uint8List? pict;
-  String? api_key;
+ final Uint8List? pict;
+ final String api_key;
+ final String device_identifier;
 
-  Map<int,String> sensors={1:"temperature",
-                           2:"pressure",
-                           3:"IAQ",
-                           4:"LDR",
-                           5:"water_level",
-                           6: "moisture",
-                           7: " humidity"};
-
-  Plant({required this.PlantID, required this.PlantName,this.pict,this.api_key});
-
-
-
+  Plant({required this.PlantID, required this.PlantName,this.pict,required this.api_key, required this.device_identifier});
 
 }

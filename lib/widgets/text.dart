@@ -5,7 +5,7 @@ const double header2Size = 24;
 const double header3Size = 18;
 const double header4Size = 10;
 const double header5Size = 15;
-
+const double header6Size = 13;
 /// Custom Text widget
 ///
 /// Mostly used for titles
@@ -140,3 +140,27 @@ class Header5Text extends Text {
   );
 }
 
+class Header6Text extends Text {
+  Header6Text(
+      data, {
+        Key? key,
+        TextStyle? textStyle,
+        StrutStyle? strutStyle,
+        TextAlign? textAlign,
+        TextDirection? textDirection,
+        Locale? locale,
+        bool? softWrap,
+        TextOverflow? overflow,
+        double? textScaleFactor,
+        int? maxLines,
+        String? semanticsLabel,
+        TextWidthBasis? textWidthBasis,
+        TextHeightBehavior? textHeightBehavior,
+      }) : super(
+    data,
+    key: key,
+    style: textStyle == null
+        ? const TextStyle(fontSize: header6Size)
+        : textStyle.copyWith(fontSize: header6Size),
+  );
+}

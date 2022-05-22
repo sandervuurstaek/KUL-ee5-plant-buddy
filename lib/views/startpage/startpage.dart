@@ -8,13 +8,16 @@ import '../../widgets/ClipperPath.dart';
 
 class Frontpage extends StatelessWidget {
 
-  Widget startimage=Image.asset("asset/startpage.png",fit: BoxFit.cover,
-    width: 1024,
-    height: 500,);
 
-  Frontpage({Key? key}) : super(key: key);
+const  Frontpage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+
+
+    final Widget startimage=Image.asset("asset/startpage.png",fit: BoxFit.cover,
+      width: 1024,
+      height: 500,);
+
 
     return Scaffold(
       backgroundColor: Colors.white,

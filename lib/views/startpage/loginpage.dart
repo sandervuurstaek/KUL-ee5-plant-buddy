@@ -1,9 +1,8 @@
 
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:plantbuddy/controller/RouterManager.dart';
-import 'package:plantbuddy/model/user.dart';
+import 'package:plantbuddy/model/User.dart';
 import 'package:plantbuddy/widgets/Decoration/CardDecoration.dart';
 import 'package:plantbuddy/widgets/LoadingDialog.dart';
 import 'package:plantbuddy/widgets/TextForm.dart';
@@ -13,8 +12,7 @@ import 'package:plantbuddy/widgets/transparant_appbar.dart';
 
 
 class Login extends StatefulWidget {
-  var backgroundimage= AssetImage("asset/login.jpg",);
-  Login({Key? key}) : super(key: key);
+  const Login({Key? key}) : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();
@@ -27,6 +25,7 @@ class _LoginState extends State<Login> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _tryLogin() async {
+    print(DateTime.now().toString());
     if(_formKey.currentState!.validate() )
       {
         _enterLoading();
@@ -41,7 +40,6 @@ class _LoginState extends State<Login> {
       int code= await User().UserLogin(emailTextForm.textEditingController.text, passwordTextForm.passwordEditingController.text);
             if(code==200)
             {
-    //User().updatedInfo=true;
     await _getUserInfo();
             }
   }

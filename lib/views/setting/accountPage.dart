@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
 
-import '../../model/user.dart';
+import '../../model/User.dart';
 import '../../widgets/text.dart';
 import '../../widgets/transparant_appbar.dart';
 
@@ -24,19 +23,19 @@ class _accountPageState extends State<accountPage> {
         [SettingsTile.navigation(
           title: Header3Text(User().firstname,textStyle: TextStyle(color: Colors.black),
           ),
-          description: Header5Text("First Name",textStyle: TextStyle(color: Colors.grey)),
+          description: Header6Text("First Name",textStyle: TextStyle(color: Colors.grey)),
           leading: Icon(Icons.person,color: Colors.red,size: 48,),
         ),
           SettingsTile.navigation(
             title: Header3Text(User().lastname,textStyle: TextStyle(color: Colors.black),
             ),
-            description: Header5Text("Last Name",textStyle: TextStyle(color: Colors.grey)),
+            description: Header6Text("Last Name",textStyle: TextStyle(color: Colors.grey)),
             leading: Icon(Icons.person,color: Colors.blueAccent,size: 48,),
           ),
           SettingsTile.navigation(
             title: Header3Text(User().email,textStyle: TextStyle(color: Colors.black),
             ),
-            description: Header5Text("Email",textStyle: TextStyle(color: Colors.grey)),
+            description: Header6Text("Email",textStyle: TextStyle(color: Colors.grey)),
             leading: Icon(Icons.email,color: Colors.yellow,size: 48,),
           ),
         ]
@@ -56,6 +55,6 @@ class _accountPageState extends State<accountPage> {
             buidAccountPage(),
           ]
       ),
-    );;;
+    );
   }
 }

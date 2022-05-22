@@ -1,12 +1,11 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
-import 'package:plantbuddy/views/myPlants/bluetooth/EspWithWifi.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:plantbuddy/widgets/Decoration/CardDecoration.dart';
 
-import '../../../model/user.dart';
+import '../../../controller/RouterManager.dart';
+import '../../../model/User.dart';
 import '../../../widgets/TextForm.dart';
 import '../../../widgets/Toast.dart';
 import '../../../widgets/specialButton.dart';
@@ -26,14 +25,23 @@ class _Add_new_device_pageState extends State<Add_new_device_page> {
 
   @override
   Widget build(BuildContext context) {
-    Widget pictureArea=  CircleAvatar(
-      radius: 30,
-      child: CameraButton(context),
-      backgroundColor: Colors.white,
-    );
+
+
+    Widget pictureArea=  Container(
+      margin:  const EdgeInsets.only(left: 20,right: 20),
+      width: 100,
+      height: 200,
+      child:IconButton(onPressed:(){
+
+      },
+        icon: Icon(Icons.camera_alt_rounded),
+        color: Colors.grey,
+        iconSize: 48,),
+    decoration: CardDecoration(16),);
+
+
     Widget inputTextArea =Container(
       margin:  const EdgeInsets.only(left: 20,right: 20),
-      decoration: CardDecoration(16),
       child: Form(
         key: _formKey,
         child: Column(
@@ -41,7 +49,6 @@ class _Add_new_device_pageState extends State<Add_new_device_page> {
           children:  [
             plantnameForm,
             const SizedBox(height: 10,),
-
           ],
         ),
       ),
@@ -50,7 +57,7 @@ class _Add_new_device_pageState extends State<Add_new_device_page> {
     void _trySubmit() async {
       if(_formKey.currentState!.validate())
       {
-        await get_api_key(context);
+        await get_new_plant(context);
       }
     }
 
@@ -66,7 +73,9 @@ class _Add_new_device_pageState extends State<Add_new_device_page> {
       body: ListView(
           children:[
             pictureArea,
+            SizedBox(height: 20,),
             inputTextArea,
+            SizedBox(height: 20,),
             submitButtonArea,
           ]
       ),
@@ -74,12 +83,16 @@ class _Add_new_device_pageState extends State<Add_new_device_page> {
     );
   }
 
-  Future<void> get_api_key(BuildContext context) async {
+  Future<void> get_new_plant(BuildContext context) async {
      runZonedGuarded(
         () async{
-          var api_key= await User().UserAdd_new_device(plantnameForm.textEditingController.text,widget.device.id.toString());
-         // print(api_key);
-          get_bluetooth_service(api_key, context);
+          List json= await User().UserAdd_new_device(plantnameForm.textEditingController.text, widget.device.id.toString());
+          if(json.isNotEmpty)
+            {
+              var api_key=json[0]["api_key"];
+              var id=json[0]["id"];
+              get_bluetooth_service(id,api_key, context);
+            }
         },get_api_key_exception_handler
     );
   }
@@ -90,13 +103,13 @@ class _Add_new_device_pageState extends State<Add_new_device_page> {
     ToastDialog.show_toast(e.toString());
       }
 
-  Future<void> get_bluetooth_service(api_key, BuildContext context) async {
+  Future<void> get_bluetooth_service(int id, api_key, BuildContext context) async {
      if(api_key!=null)
     {
       List<BluetoothService> services= await widget.device.discoverServices();
       if(services.isNotEmpty)
         {
-          connect_esp_to_wifi(context, api_key, services);
+          connect_esp_to_wifi(context,id, api_key, services);
         }
       else{
         get_no_service_response();
@@ -108,11 +121,7 @@ class _Add_new_device_pageState extends State<Add_new_device_page> {
     ToastDialog.show_toast("Device bluetooth no services ");
   }
 
-  void connect_esp_to_wifi(BuildContext context, api_key, List<BluetoothService> services) {
-     //User().updatedInfo=true;
-    Navigator.push(context, MaterialPageRoute(
-        builder: (context) {
-          return EspWithWifi(device: widget.device, api_key: api_key.toString(),service: services,);
-        }));
+  void connect_esp_to_wifi(BuildContext context,int id, api_key, List<BluetoothService> services) {
+    RouterManager.gotoEspWithWifi(context, id, widget.device, api_key, services, true);
   }
 }

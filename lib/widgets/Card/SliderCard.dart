@@ -1,15 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:plantbuddy/widgets/Decoration/CardDecoration.dart';
-
+import 'package:plantbuddy/model/Sensor.dart';
 import '../text.dart';
 
+//ignore: must_be_immutable
 class SliderCard extends StatefulWidget {
-  double min;
-  double max;
-  Widget leadingIcon;
-  String text;
-  var selectRange =RangeValues(0.2,98);
+  final double min;
+  final double max;
+  final Widget leadingIcon;
+  final String text;
+  RangeValues selectRange =RangeValues(0.2,98);
   SliderCard({Key? key,required this.min, required this.max,required this.leadingIcon,required this.text}) : super(key: key);
 
   @override
@@ -18,8 +18,10 @@ class SliderCard extends StatefulWidget {
 
 class _SliderCardState extends State<SliderCard> {
 
+
   @override
   Widget build(BuildContext context) {
+
 
     return Container(
       margin:  const EdgeInsets.only(left: 16,right: 16),
@@ -30,6 +32,7 @@ class _SliderCardState extends State<SliderCard> {
           Header3Text(widget.text,textStyle: TextStyle(color: Colors.grey),),
           ListTile(
               title: RangeSlider(
+                activeColor: Sensor.getSensorColor(widget.text),
                 min: widget.min,
                 max: widget.max,
                 divisions: 100,
@@ -42,7 +45,6 @@ class _SliderCardState extends State<SliderCard> {
                 },
               ),
               leading: widget.leadingIcon,
-             // trailing: Icon(Icons.water_drop, color: Colors.blueAccent,),
 
           ),
           SizedBox(height: 8,),

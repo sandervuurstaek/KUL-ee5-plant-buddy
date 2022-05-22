@@ -5,6 +5,8 @@ import 'package:plantbuddy/views/myPlants/my_plants.dart';
 import 'package:plantbuddy/views/overview/overview.dart';
 import 'package:plantbuddy/views/setting/settings.dart';
 
+import '../../model/User.dart';
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -18,6 +20,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    print(User().token);
     return AdaptiveNavigationScaffold(
       selectedIndex: _currentPage,
       destinations: const [
@@ -45,6 +48,6 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
-    ;
+
   }
 }

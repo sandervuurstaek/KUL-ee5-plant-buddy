@@ -4,8 +4,8 @@ import 'package:plantbuddy/widgets/text.dart';
 
 class actionSheet extends CupertinoActionSheet{
   final String header;
-  BuildContext context;
-  List<Widget> actionOptions;
+  final BuildContext context;
+  final List<Widget> actionOptions;
   actionSheet(this.header, this.context,this.actionOptions , {Key? key}): super(
     key: key,
     title: Header3Text(header,textStyle: const TextStyle(

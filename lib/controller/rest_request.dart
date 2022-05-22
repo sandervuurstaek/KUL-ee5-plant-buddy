@@ -19,6 +19,7 @@ class RestRequest {
           _getUri(path,queryParameters),
           headers: headers,
         ).then((response){
+          print(response.body);
           client.close();
           return response;
     })
@@ -38,7 +39,8 @@ class RestRequest {
 
   Future<dynamic> httpPost({required String path,
   Map<String, dynamic>? queryParameters,
-  Map<String, String>? headers}) async {
+  Map<String, String>? headers}) async
+  {
     var client=http.Client();
     return client
         .post(
@@ -56,7 +58,8 @@ class RestRequest {
   Future<http.Response> httpPut({required String path,
     Map<String, dynamic>? queryParameters,
     Map<String, String>? headers,
-  required Map<String,dynamic> data})async {
+  required Map<String,dynamic> data})async
+  {
     return http.put(_getUri(path,queryParameters),
     headers: headers,
       body: jsonEncode(data)
@@ -66,8 +69,11 @@ class RestRequest {
   }
 
 
+
+
+
+
   Uri _getUri(String path, [Map<String, dynamic>? queryParameters]) =>
       Uri.https(baseUrl, path, queryParameters);
 
-  Uri _getUriFromParse(String path)=>Uri.parse(path);
 }

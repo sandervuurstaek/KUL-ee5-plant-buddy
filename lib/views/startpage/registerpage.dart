@@ -7,12 +7,11 @@ import 'package:plantbuddy/widgets/Decoration/CardDecoration.dart';
 import 'package:plantbuddy/widgets/LoadingDialog.dart';
 import 'package:plantbuddy/widgets/TextForm.dart';
 
-import '../../model/user.dart';
+import '../../model/User.dart';
 import '../../widgets/Toast.dart';
 import '../../widgets/imageWidget.dart';
 import '../../widgets/specialButton.dart';
 import '../../widgets/transparant_appbar.dart';
-import '../home/home.dart';
 
 class RegisterPage extends StatefulWidget {
     const RegisterPage({Key? key}) : super(key: key);

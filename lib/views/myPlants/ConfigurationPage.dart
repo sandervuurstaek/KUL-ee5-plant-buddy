@@ -1,14 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:plantbuddy/model/Sensor.dart';
 import 'package:plantbuddy/widgets/Card/SliderCard.dart';
 
 import '../../model/Plant.dart';
 import '../../widgets/LoadingDialog.dart';
 import '../../widgets/specialButton.dart';
 import '../../widgets/transparant_appbar.dart';
-
+//ignore: must_be_immutable
 class ConfigurationPage extends StatefulWidget {
-  Plant plant;
+   Plant plant;
   ConfigurationPage({Key? key,required this.plant}) : super(key: key);
 
   @override
@@ -17,14 +17,14 @@ class ConfigurationPage extends StatefulWidget {
 
 class _ConfigurationPageState extends State<ConfigurationPage> {
   bool loading=false;
-
-  SliderCard temperatureBar=SliderCard(min: 0, max: 100, leadingIcon: Icon(Icons.cloud_circle, color: Colors.blue,size: 48,),text: "Temperature",);
-  SliderCard pressureBar=SliderCard(min: 0, max: 100, leadingIcon: Icon(Icons.sensors_rounded, color: Colors.redAccent,size: 48,),text: "Pressure",);
-  SliderCard IAQBar=SliderCard(min: 0, max: 100, leadingIcon: Icon(Icons.air_rounded, color: Colors.blue,size: 48,),text: "IAQ",);
-  SliderCard LDRBar=SliderCard(min: 0, max: 100, leadingIcon: Icon(Icons.social_distance_rounded, color: Colors.green,size: 48,),text: "LDR",);
-  SliderCard water_levelBar=SliderCard(min: 0, max: 100, leadingIcon: Icon(Icons.water_drop_sharp, color: Colors.blueAccent,size: 48,),text: "Water Level",);
-  SliderCard moistureBar=SliderCard(min: 0,max: 100,leadingIcon: Icon(Icons.water_outlined,color: Colors.grey,size: 48,),text: "Moisture", );
-  SliderCard humidityBar=SliderCard(min: 0, max: 100, leadingIcon: Icon(Icons.water,color: Colors.amberAccent,size: 48,), text: "Humidity");
+  double size=24;
+  SliderCard temperatureBar=SliderCard(min: 0, max: 100, leadingIcon: Sensor.getSensorIcon("Temperature", 24),text: "Temperature",);
+  SliderCard pressureBar=SliderCard(min: 0, max: 100, leadingIcon: Sensor.getSensorIcon("Pressure", 24),text: "Pressure",);
+  SliderCard IAQBar=SliderCard(min: 0, max: 100, leadingIcon: Sensor.getSensorIcon("IAQ", 24),text: "IAQ",);
+  SliderCard LDRBar=SliderCard(min: 0, max: 100, leadingIcon: Sensor.getSensorIcon("LDR", 24),text: "LDR",);
+  SliderCard water_levelBar=SliderCard(min: 0, max: 100, leadingIcon: Sensor.getSensorIcon("Water_Level", 24),text: "Water Level",);
+  SliderCard moistureBar=SliderCard(min: 0,max: 100,leadingIcon: Sensor.getSensorIcon("Moisture", 24),text: "Moisture", );
+  SliderCard humidityBar=SliderCard(min: 0, max: 100, leadingIcon: Sensor.getSensorIcon("Humidity", 24), text: "Humidity");
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,7 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
           ):LoadingDialog(),
         ),
       ),
-    );;
+    );
   }
 
   void _pressSave(){

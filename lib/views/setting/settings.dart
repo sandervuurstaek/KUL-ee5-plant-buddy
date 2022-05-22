@@ -1,10 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:plantbuddy/controller/RouterManager.dart';
-import 'package:plantbuddy/views/setting/accountPage.dart';
-import 'package:plantbuddy/views/startpage/startpage.dart';
 import 'package:plantbuddy/widgets/text.dart';
-import 'package:plantbuddy/widgets/transparant_appbar.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 
@@ -58,12 +54,12 @@ class _SettingsState extends State<Settings> {
         leading: Icon(Icons.question_answer_outlined),
         trailing: Icon(Icons.arrow_forward_ios,size: 16,),
         onPressed: (BuildContext context){
+
         },
       ),
 
     ],
   );
-
 
 
   SettingsSection buildLogOut(){

@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 
 class TextForm extends StatefulWidget {
-  String text;
+ final String text;
   final TextEditingController textEditingController= TextEditingController();
 
   TextForm({Key? key, required this.text}) : super(key: key);
@@ -61,7 +61,7 @@ class _TextFormState extends State<TextForm> {
 }
 
 class PasswordTextForm extends StatefulWidget {
-  String text;
+ final String text;
   final TextEditingController passwordEditingController= TextEditingController();
 
   PasswordTextForm({Key? key,required this.text}) : super(key: key);

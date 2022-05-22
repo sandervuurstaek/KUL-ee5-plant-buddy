@@ -1,8 +1,7 @@
 import 'dart:async';
-import 'dart:typed_data';
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:network_info_plus/network_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:plantbuddy/controller/RouterManager.dart';
@@ -13,12 +12,13 @@ import '../../../widgets/specialButton.dart';
 import '../../../widgets/text.dart';
 import '../../../widgets/transparant_appbar.dart';
 
-
 class EspWithWifi extends StatefulWidget {
-  BluetoothDevice device;
-  String api_key;
-  List<BluetoothService> service;
-  EspWithWifi({Key? key,required this.device,required this.api_key,required this.service}) : super(key: key);
+  final BluetoothDevice device;
+  final String api_key;
+  final List<BluetoothService> service;
+  final int id;
+  final bool fromAddNew;
+  const EspWithWifi({Key? key,required this.device,required this.api_key,required this.service,required this.id, required this.fromAddNew}) : super(key: key);
 
   @override
   _EspWithWifiState createState() => _EspWithWifiState();
@@ -30,11 +30,13 @@ class _EspWithWifiState extends State<EspWithWifi> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   PasswordTextForm passwordTextForm = PasswordTextForm(text: 'Wifi Password');
 
-
   @override
   void initState() {
     super.initState();
   }
+
+
+
   Future<String?> getSSID() async {
     PermissionWithService locationPermission = Permission.locationWhenInUse;
     var permissionStatus = await locationPermission.status;
@@ -114,7 +116,7 @@ class _EspWithWifiState extends State<EspWithWifi> {
         ],
       ),
     );
-    Widget passwordarea=Container(
+    Widget passWordArea=Container(
       margin:  const EdgeInsets.only(left: 20,right: 20),
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -135,7 +137,7 @@ class _EspWithWifiState extends State<EspWithWifi> {
 
     Widget sendButtonArea=Container(
         margin:  const EdgeInsets.only(left: 20,right: 20),
-        child: RoundedButton(data: "Connect", pressed: send_wifiInfo_to_Esp));
+        child: RoundedButton(data: "Connect ESP to Wifi", pressed: _send_wifiInfo_to_Esp));
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -148,34 +150,30 @@ class _EspWithWifiState extends State<EspWithWifi> {
               SizedBox(height: 30,),
               wifiInfo,
               SizedBox(height: 30,),
-              passwordarea,
+              passWordArea,
               SizedBox(height: 30,),
               sendButtonArea
             ]
         ),
       ),
 
-    );;
+    );
   }
 
-  void send_wifiInfo_to_Esp() async {
+  void _send_wifiInfo_to_Esp() async {
     if(SSID!=null && SSID!='')
       {
         runZonedGuarded(
                 ()async{
-              int counter=0;
               widget.service.forEach((service) async {
-                print('0x${service.uuid.toString().toUpperCase().substring(4, 8)}');
+                print('service 0x${service.uuid.toString().toUpperCase().substring(4, 8)}');
                 if('0x${service.uuid.toString().toUpperCase().substring(4, 8)}'=="0x00FF")
                 {
-                  counter = await _writeToCharacteristic(service, counter);
-                  if(counter==3){
-                    _successToWrite();
-                  }
+                  await _writeToCharacteristic(service);
                 }
               });
-
-            },wirte_exception_handler
+              _successToWrite();
+            },_wirte_exception_handler
         );
       }
     else{
@@ -185,44 +183,56 @@ class _EspWithWifiState extends State<EspWithWifi> {
       }
 
   void _successToWrite() {
-    widget.device.disconnect();
-    // User().updatedInfo=true;
-    go_back_to_Homepage();
+   if(widget.fromAddNew)
+     {
+       _go_back_to_Homepage();
+     }
+   else{
+     _go_back_to_PlantInfo_Page();
+   }
+    
   }
 
-  Future<int> _writeToCharacteristic(BluetoothService service, int counter) async {
+   _writeToCharacteristic(BluetoothService service) async {
     service.characteristics.forEach((characteristic) async {
       String uuid='0x${characteristic.uuid.toString().toUpperCase().substring(4, 8)}';
       print(uuid);
       if(uuid=='0xFF02')//SSID
           {
         print("write to ssid");
-        await characteristic.write(Uint8List.fromList(SSID!.codeUnits));
-        counter++;
+        print("$SSID ${passwordTextForm.passwordEditingController.text} ${widget.api_key}");
+         await characteristic.write(utf8.encode("$SSID ${passwordTextForm.passwordEditingController.text} ${widget.api_key} ${widget.id}"));
+        ToastDialog.show_toast("Successfully write to ESP");
       }
-      else if(uuid=='0xFF03')//PASSWORD
+      /*else if(uuid=='0xFF03')//PASSWORD
           {
         print(passwordTextForm.passwordEditingController.text);
         print("write password");
-        await characteristic.write(Uint8List.fromList(passwordTextForm.passwordEditingController.text.codeUnits));
-        counter++;
-      }
-      else if(uuid=='0xFF04')//API_KEY
+        await characteristic.write(utf8.encode(passwordTextForm.passwordEditingController.text));
+       //counter++;
+      }*/
+      /*else if(uuid=='0xFF04')//API_KEY
           {
         print("write api key");
         print(widget.api_key);
-        await characteristic.write(Uint8List.fromList(widget.api_key.codeUnits));
-        counter++;
-      }
+        await characteristic.write(utf8.encode(widget.api_key));
+        //counter++;
+      }*/
     });
-    return counter;
+
   }
 
-  void go_back_to_Homepage() {
+  void _go_back_to_Homepage() {
      RouterManager.toHomepage(context);
   }
+  
+  void _go_back_to_PlantInfo_Page(){
+    RouterManager.goBack(context);
+  }
 
-  void wirte_exception_handler(dynamic e, StackTrace stack){
+  void _wirte_exception_handler(dynamic e, StackTrace stack){
+    print(e);
+    print(stack);
     ToastDialog.show_toast("Unable to connect with ");
   }
   
