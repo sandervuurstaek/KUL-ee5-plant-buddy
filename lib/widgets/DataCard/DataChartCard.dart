@@ -23,19 +23,19 @@ class DataChart extends StatefulWidget {
    final double milliseconds_of_a_day=86400000;
 
    double _getMaxX( ) {   //remove
-      List parts2= date.toString().split(" ");
-     String day2=parts2.first;
-     String timestamp2="${day2} 24:00:00";
-     double latesttime=DateTime.parse(timestamp2).millisecondsSinceEpoch.toDouble();
-     return latesttime;
+      List parts= date.toString().split(" ");
+     String day=parts.first;
+     String timeStamp="${day} 24:00:00";
+     double latestTime=DateTime.parse(timeStamp).millisecondsSinceEpoch.toDouble();
+     return latestTime;
    }
 
    double _getMinX( ) {  //remove
      List parts= date.toString().split(" ");
      String day=parts.first;
-     String timestamp="${day} 00:00:00";
-     double lasttime=DateTime.parse(timestamp).millisecondsSinceEpoch.toDouble();
-     return lasttime;
+     String timeStamp="${day} 00:00:00";
+     double lastTime=DateTime.parse(timeStamp).millisecondsSinceEpoch.toDouble();
+     return lastTime;
    }
 
    double _getMaxValue(List<Data> data){
@@ -137,7 +137,7 @@ class _DataChartState extends State<DataChart> {
 
 
 
-//bottumTile
+//bottomTile
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
       color: Colors.blueGrey,
@@ -197,7 +197,7 @@ class _DataChartState extends State<DataChart> {
         content='';
       }
     else{
-      content=value.toInt().toString();
+      content=value.toStringAsFixed(2).toString();
     }
 
      return Container(margin:EdgeInsets.only(left: 8, right: 8),child: Header6Text(content,textStyle: style,));
@@ -223,7 +223,7 @@ class _DataChartState extends State<DataChart> {
             showTitles: true,
             interval: (widget.maxY-widget.minY)/8,
             getTitlesWidget: leftAndRightTitleWidgets,
-            reservedSize:40,
+            reservedSize:55,
           ),
         ),
 
@@ -245,16 +245,15 @@ class _DataChartState extends State<DataChart> {
           ),
         ),
 
+
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
             interval: (widget.maxY-widget.minY)/8,
             getTitlesWidget: leftAndRightTitleWidgets,
-            reservedSize: 40,
+            reservedSize: 55,
           ),
         ),
-
-
 
       ),
 

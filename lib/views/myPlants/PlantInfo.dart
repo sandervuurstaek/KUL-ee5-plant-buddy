@@ -284,7 +284,7 @@ class _PlantInfoPageState extends State<PlantInfoPage> {
         String newName=nameForm.textEditingController.text;
         if(newName!=''){
         _enterLoading();
-          await User().UserUpdate_device(widget.plant.PlantID, '',newName );
+          await User().UserUpdate_device(widget.plant.PlantID, '' ,newName );
           setState(() {
             loading=false;
             widget.plant.PlantName=newName;

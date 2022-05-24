@@ -212,7 +212,7 @@ Future<dynamic> User_get_measurement(int deviceId) async
       queryParameters: {
         "device_name": deviceName,
         "device_identifier": deviceIdentifier,
-        "picture" : {}
+        "picture" : null
       },
       headers: _getHeader(true)
     ).then((response) async {
@@ -249,7 +249,7 @@ Future<dynamic> User_get_measurement(int deviceId) async
       },
       headers: _getHeader(true),
       data: {
-        "device_name" : deviceName,
+        "device_name" :deviceName,
         "picture" : pic
       }
     ).then((response) async {
@@ -261,6 +261,10 @@ Future<dynamic> User_get_measurement(int deviceId) async
       {
         ToastDialog.show_toast("Your token is expired, please log in again");
       }
+      else if(response.statusCode==400)
+        {
+          ToastDialog.show_toast("Invalid ${response.body}");
+        }
      else{
         ToastDialog.show_toast("Failed to change");
       }
