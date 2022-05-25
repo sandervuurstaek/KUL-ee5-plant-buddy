@@ -40,7 +40,7 @@ class _ConnectedBluetoothCardState extends State<ConnectedBluetoothCard> {
               _add_new_device(context);
             }
           else{
-            if(widget.plant!=null)
+            if(widget.plant!=null && widget.plant?.device_identifier.toString()==widget.device.id.toString())
               {
                  _showWifiConnection(context);
               }
@@ -76,11 +76,18 @@ class _ConnectedBluetoothCardState extends State<ConnectedBluetoothCard> {
   void _showWifiConnection(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context)=>AlertDialog(title: Header3Text("Wifi Connection"),
+      builder: (context)=>AlertDialog(
+        title: Row(
+          children: [
+            Icon(Icons.wifi,color: Colors.blue,),
+            SizedBox(width: 4,),
+            Header5Text("Wifi Connection"),
+          ],
+        ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         content: _connectionInfo(),
         actions: [
-          TextButton(child: Header3Text('CANCEL',textStyle: TextStyle(color: Colors.blueAccent),), onPressed: ()  {
+          TextButton(child: Header3Text('Cancel',textStyle: TextStyle(color: Colors.blueAccent),), onPressed: ()  {
             Navigator.pop(context);
           }),
           TextButton(child: Header3Text('Reconnect',textStyle: TextStyle(color: Colors.blueAccent)), onPressed: () async {
@@ -92,7 +99,6 @@ class _ConnectedBluetoothCardState extends State<ConnectedBluetoothCard> {
   
   Widget _connectionInfo(){
     return Container(
-      margin: EdgeInsets.all(8),
       decoration: CardDecoration(16),
       child: FutureBuilder(
               future: _getConnectionInfo(),
@@ -102,9 +108,8 @@ class _ConnectedBluetoothCardState extends State<ConnectedBluetoothCard> {
                   if(snapshot.hasData)
                   {
                         return ListTile(
-                          title: snapshot.data==1?Header3Text("Connected with Wifi",textStyle: TextStyle(color: Colors.blue),):Header3Text('Wifi Connection Failed ',textStyle: TextStyle(color: Colors.red)),
-                          leading: snapshot.data==1?Icon(Icons.fmd_good_rounded,color: Colors.blue,):Icon(Icons.sms_failed_rounded,color: Colors.red,),
-                          trailing: Icon(Icons.wifi,color: Colors.blue,),
+                          title: snapshot.data==1?Header5Text("Connected",textStyle: TextStyle(color: Colors.green),):Header5Text('Connection Failed',textStyle: TextStyle(color: Colors.red)),
+                          leading: snapshot.data==1?Icon(Icons.wifi_find,color: Colors.green,):Icon(Icons.sms_failed_rounded,color: Colors.red,),
                         );
                   }
                   else if(snapshot.hasError)
@@ -136,53 +141,29 @@ class _ConnectedBluetoothCardState extends State<ConnectedBluetoothCard> {
       {
         return 0;
       }
-    List<BluetoothService> service=services.where((service) {
-      if('0x${service.uuid.toString().toUpperCase().substring(4, 8)}'=="0x00FF")
-        {
-          return true;
-        }
-      else{
-        return false;
-      }
-    }).toList();
-    if(service.isEmpty)
-      {
-        return 0;
-      }
-    //
-   print('0x${service[0].uuid.toString().toUpperCase().substring(4, 8)}') ;
-    //
-    int value= await _readFromCharacteristic(service[0]);
-    return value;
-  }
-
-  Future _readFromCharacteristic(BluetoothService service) async
-  {
-    /*List<BluetoothCharacteristic> characteristics=service.characteristics.where((characteristic) {
-      String uuid='0x${characteristic.uuid.toString().toUpperCase().substring(4, 8)}';
-      if(uuid=='0xFF05')
-        {
-          return true;
-        }
-      else
-      {
-        return false;
-      }
-    }).toList();
-
-    if(characteristics.isEmpty)
-      {
-        return 0;
-      }*/
-
-
     List<int> value=[];
-    for (BluetoothCharacteristic characteristic in service.characteristics) {
-      if('0x${characteristic.uuid.toString().toUpperCase().substring(4, 8)}'=='0xFF05')
+    for(BluetoothService service in services)
       {
-        value=await characteristic.read();
+        if('0x${service.uuid.toString().toUpperCase().substring(4, 8)}'=="0x00FF")
+          {
+            for(BluetoothCharacteristic characteristic in service.characteristics)
+              {
+                if('0x${characteristic.uuid.toString().toLowerCase().substring(4, 8)}'=='0xff05')
+                  {
+                    //if(characteristic.properties.read)
+                    //{
+                    await characteristic.setNotifyValue(true);
+                    characteristic.value.listen((v) {
+                      print(v);
+                      value=v;
+                    });
+                     // value=await characteristic.read();
+                      print(value);
+                    //}
+                  }
+              }
+          }
       }
-    }
     if(value.isEmpty)
     {
       return 0;
@@ -196,11 +177,9 @@ class _ConnectedBluetoothCardState extends State<ConnectedBluetoothCard> {
       {
         return 0;
       }
-
+    }
   }
 
-
-  
 
 
 

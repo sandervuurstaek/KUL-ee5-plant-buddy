@@ -223,6 +223,7 @@ class _EspWithWifiState extends State<EspWithWifi> {
   }
 
   void _go_back_to_Homepage() {
+    widget.device.disconnect();
      RouterManager.toHomepage(context);
   }
   

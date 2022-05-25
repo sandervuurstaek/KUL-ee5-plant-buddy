@@ -45,6 +45,7 @@ class _BluetoothCardState extends State<BluetoothCard> {
       }
 
   void connection_exception_handler(dynamic e, StackTrace stack){
+    leave_loading();
     ToastDialog.show_toast("Unable to connect with this device");
   }
 

@@ -1,8 +1,14 @@
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:plantbuddy/widgets/Card/PlantLogCard.dart';
+import 'package:plantbuddy/model/Notification.dart';
+import 'package:plantbuddy/widgets/Card/NotificationCard.dart';
 import 'package:plantbuddy/widgets/adaptive_widget.dart';
 import 'package:plantbuddy/widgets/weather_card_pageview.dart';
 
+import '../../model/User.dart';
+import '../../widgets/Card/ListTileCard.dart';
+import '../../widgets/Loading.dart';
+import '../../widgets/Toast.dart';
 import '../../widgets/text.dart';
 
 /// Overview page
@@ -38,18 +44,57 @@ class _OverviewState extends State<Overview> {
   Widget build(BuildContext context) {
 
 
-    Widget plantLogInfo =  RefreshIndicator(child: Scrollbar(child: ListView(
-      reverse: true,
-      children: [
-        const PlantLogCard("Water","Plant1","The temperature is too high up to 36 degree"),
-        PlantLogCard("Progress update","Plant2","Message2"),
-        PlantLogCard("Progress update","Plant3","Message3"),
-        PlantLogCard("Progress update","Plant2","Message2"),
-        PlantLogCard("Progress update","Plant3","Message3"),
-        PlantLogCard("Progress update","Plant2","Message2"),
-        PlantLogCard("Progress update","Plant3","Message3"),
-      ],
-    )), onRefresh:_refresh );
+    List<Message> _getNotificationsFromJson(data) {
+      List<Message> messages=[];
+      for(var m in data)
+      {
+        Message  message=Message(id: m['id'], type: m['notification_id'], plantName: m['device_name'], timeStamp: m['time_stamp']);
+        messages.add(message);
+      }
+      return messages;
+    }
+
+
+    //when no notification found
+    Widget noDataWidget= ListTileCard(leading:Icon(CommunityMaterialIcons.sprout,
+      color: Colors.lightGreenAccent,size: 48,),
+        text:"Your notification is empty");
+
+
+    //when failed to fetch notifications
+    Widget errorWidget= ListTileCard(leading:Icon(Icons.error_outline_rounded,color: Colors.red,size: 48,),text:"Failed To Fetch Plants");
+
+    Widget plantLogInfo =  RefreshIndicator(child:
+        FutureBuilder<dynamic>(
+            future: User().UserGet_notifications(),
+            builder: (context, snapshot) {
+              if(snapshot.connectionState==ConnectionState.done)
+              {
+                if(snapshot.hasData)
+                {
+                  return ListView(reverse: false,
+                  children: _getNotificationsFromJson(snapshot.data).map((e) => NotificationCard( notification: e)).toList(),
+                  );
+                }
+                else if(snapshot.hasError)
+                {
+                  print(snapshot.error);
+                  print(snapshot.stackTrace);
+                  ToastDialog.show_toast(snapshot.error.toString());
+                  return errorWidget;
+                }
+                else{
+                  return  noDataWidget;
+                }
+              }
+              else{
+                return Center(child: Loading());
+              }
+            }
+        ),
+        onRefresh:_refresh
+    );
+
 
 
     return Scaffold(
@@ -60,7 +105,7 @@ class _OverviewState extends State<Overview> {
             mainAxisSize: MainAxisSize.min,
             children: [
               weather,
-              Container(margin: EdgeInsets.all(8),child: Header6Text("Plants Log Information",textStyle: TextStyle(color: Colors.grey),)),
+              Container(margin: EdgeInsets.all(8),child: Header6Text("Plants Notification",textStyle: TextStyle(color: Colors.grey),)),
               Expanded(
                 child: plantLogInfo,
               ),],

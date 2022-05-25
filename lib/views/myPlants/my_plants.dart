@@ -76,7 +76,7 @@ class _MyPlantsState extends State<MyPlants> {
 
 
     //when no plants found
-    Widget nodataWidget= ListTileCard(leading:Icon(Icons.hourglass_empty_rounded,color: Colors.blue,size: 48,),text:"No Plants Found");
+    Widget noDataWidget= ListTileCard(leading:Icon(Icons.hourglass_empty_rounded,color: Colors.blue,size: 48,),text:"No Plants Found");
 
 
     //when failed to fetch plants
@@ -113,7 +113,7 @@ class _MyPlantsState extends State<MyPlants> {
                                   return errorWidget;
                                 }
                               else{
-                                return  nodataWidget;
+                                return  noDataWidget;
                               }
                             }
                           else{

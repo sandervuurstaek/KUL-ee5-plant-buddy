@@ -89,7 +89,7 @@ class Sensor{
         break;
 
         default: {
-          unit="";
+          unit="%";
         }
       }
 
@@ -135,6 +135,22 @@ class Sensor{
       }
       break;
 
+      case "LED_white":{
+        color=color=Color.fromRGBO(62, 58, 58, 1.0);
+      }
+      break;
+      case "LED_blue":{
+        color=color=Color.fromRGBO(16, 37, 135, 1.0);
+      }
+      break;
+      case "LED_hyper_red":{
+        color=color=Color.fromRGBO(220, 46, 46, 1.0);
+      }
+      break;
+      case "LED_far_red":{
+        color=Color.fromRGBO(87, 3, 3, 1.0);
+      }
+      break;
       default: {
         color=Colors.green;
       }
@@ -179,6 +195,23 @@ class Sensor{
 
       case "Humidity": {
         icon =BoxedIcon(WeatherIcons.humidity,color: getSensorColor("Humidity"),size: size,);
+      }
+      break;
+
+      case "LED_white": {
+        icon=Icon(Icons.lightbulb, color: getSensorColor("LED_white"),size: size,);
+      }
+      break;
+      case "LED_blue": {
+        icon=Icon(Icons.lightbulb, color: getSensorColor("LED_blue"),size: size,);
+      }
+      break;
+      case "LED_hyper_red": {
+        icon=Icon(Icons.lightbulb, color: getSensorColor("LED_hyper_red"),size: size,);
+      }
+      break;
+      case "LED_far_red": {
+        icon=Icon(Icons.lightbulb, color: getSensorColor("LED_far_red"),size: size,);
       }
       break;
 

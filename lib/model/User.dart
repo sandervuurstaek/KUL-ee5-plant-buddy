@@ -40,7 +40,7 @@ class User {
         _getUserAuthFromJson(json);
       }
       else{
-        ToastDialog.show_toast("Login Failed");
+        _errorResponse(response);
       }
       return response.statusCode;
     });
@@ -66,7 +66,7 @@ class User {
         ToastDialog.show_toast("Successfully registered");
       }
       else{
-        ToastDialog.show_toast("Register Failed");
+        _errorResponse(response);
       }
       return response.statusCode;
     });
@@ -92,8 +92,7 @@ class User {
           ToastDialog.show_toast("Your token is expired, please log in again");
         }
       else{
-        ToastDialog.show_toast(response.statusCode.toString());
-        ToastDialog.show_toast("Failed");
+        _errorResponse(response);
       }
     }
     );
@@ -142,7 +141,7 @@ Future<dynamic> User_get_measurement(int deviceId) async
       ToastDialog.show_toast("Your token is expired, please log in again");
     }
     else{
-      ToastDialog.show_toast("Failed to get data");
+      _errorResponse(response);
     }
   },
       onError: on_error);
@@ -164,7 +163,7 @@ Future<dynamic> User_get_measurement(int deviceId) async
         ToastDialog.show_toast("Your token is expired, please log in again");
       }
       else{
-        ToastDialog.show_toast("Unable to get User information");
+        _errorResponse(response);
       }
       return response.statusCode;
     });
@@ -190,12 +189,74 @@ Future<dynamic> User_get_measurement(int deviceId) async
           }
           else
           {
-            ToastDialog.show_toast("Delete Failed");
+            _errorResponse(response);
           }
           return response.statusCode;
         },
         onError: on_error
     );
+  }
+
+
+  Future<dynamic> User_delete_notification(int notificationId) async
+  {
+    return RestRequestHandler.make_database_rest_request().httpDelete(
+        path: "/api/user/${id}/notifications",
+        queryParameters: {
+          'notification_id': notificationId.toString(),
+        },
+        headers: _getHeader(true)
+    ).then((response) async {
+      print(response.statusCode);
+      print(response.body) ;
+          if (response.statusCode == 200) {
+            ToastDialog.show_toast("Deleted");
+          }
+          else if(response.statusCode==401)
+          {
+            ToastDialog.show_toast("Your token is expired, please log in again");
+          }
+          else
+          {
+            _errorResponse(response);
+          }
+          return response.statusCode;
+        },
+        onError: on_error
+    );
+  }
+
+
+  Future<dynamic> UserGet_notifications( ) async
+  {
+    return RestRequestHandler.make_database_rest_request().httpGet(
+        path: "/api/user/${id}/notifications",
+        headers: _getHeader(true)
+    ).then((response) async {
+              print(response.statusCode);
+             print(response.body) ;
+          if (response.statusCode == 200) {
+            var data=jsonDecode(response.body);
+            return data;
+          }
+          else if(response.statusCode==401)
+          {
+            ToastDialog.show_toast("Your token is expired, please log in again");
+          }
+          else
+          {
+            ToastDialog.show_toast("No Configurations");
+          }
+        },
+    );
+  }
+
+
+
+
+  void _errorResponse(response) {
+     Map<String, dynamic> json = jsonDecode(response.body);
+    ToastDialog.show_toast(json['error']);
   }
 
   on_error(e, stack){
@@ -232,7 +293,7 @@ Future<dynamic> User_get_measurement(int deviceId) async
           ToastDialog.show_toast("Device already registered");
         }
       else{
-        ToastDialog.show_toast("Save device failed");
+        _errorResponse(response);
       }
       return [];
     });
@@ -266,12 +327,69 @@ Future<dynamic> User_get_measurement(int deviceId) async
           ToastDialog.show_toast("Invalid ${response.body}");
         }
      else{
-        ToastDialog.show_toast("Failed to change");
+        _errorResponse(response);
       }
       return response.statusCode;
     });
   }
 
+
+  Future<dynamic> UserUpdate_Configuration(int deviceID,int configuration_Type ,double min, double? max) async
+  {
+    return RestRequestHandler.make_database_rest_request().httpPut(
+        path: "/api/user/$id/configuration",
+        queryParameters: {
+          "deviceId": deviceID.toString(),
+        },
+        headers: _getHeader(true),
+        data: {
+          "configuration_type": configuration_Type,
+          "min" : min,
+          "max" : max,
+        }
+    ).then((response) async {
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        ToastDialog.show_toast("Saved change");
+      }
+      else if(response.statusCode==401)
+      {
+        ToastDialog.show_toast("Your token is expired, please log in again");
+      }
+      else{
+        _errorResponse(response);
+      }
+      return response.statusCode;
+    });
+  }
+
+
+
+  Future<dynamic> UserGet_Configuration(int deviceID) async
+  {
+    return RestRequestHandler.make_database_rest_request().httpGet(
+        path: "/api/user/$id/configuration",
+        queryParameters: {
+          "deviceId": deviceID.toString(),
+        },
+        headers: _getHeader(true),
+    ).then((response) async {
+      print(response.statusCode);
+      if(response.statusCode==200)
+      {
+        var data=jsonDecode(response.body);
+        print(data);
+        return data;
+      }
+      else if(response.statusCode==401)
+      {
+        ToastDialog.show_toast("Your token is expired, please log in again");
+      }
+      else{
+        ToastDialog.show_toast("No Configurations");
+      }
+    });
+  }
 
 
 

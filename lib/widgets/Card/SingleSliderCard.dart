@@ -1,34 +1,36 @@
+
+
+
 import 'package:flutter/material.dart';
-import 'package:plantbuddy/widgets/Decoration/CardDecoration.dart';
+import 'package:plantbuddy/model/Configuration/Configuration.dart';
 import 'package:plantbuddy/model/Sensor.dart';
-import 'package:plantbuddy/widgets/Loading.dart';
-import '../../model/Configuration/Configuration.dart';
+import 'package:plantbuddy/model/User.dart';
 import '../../model/Plant.dart';
-import '../../model/User.dart';
+import '../Decoration/CardDecoration.dart';
+import '../Loading.dart';
 import '../text.dart';
 
+
 //ignore: must_be_immutable
-class SliderCard extends StatefulWidget {
+class SingleSliderCard extends StatefulWidget {
   final Plant plant;
-  final double min;
-  final double max;
   final Widget leadingIcon;
   final String text;
-  RangeValues selectRange;
-  SliderCard({Key? key,required this.min, required this.max,required this.leadingIcon,required this.text, required this.plant, required this.selectRange}) : super(key: key);
+  double max;
+  double value;
+   SingleSliderCard({Key? key, required this.plant, required this.max, required this.text , required this.leadingIcon, required this.value}) : super(key: key);
 
   @override
-  _SliderCardState createState() => _SliderCardState();
+  _SingleSliderCardState createState() => _SingleSliderCardState();
 }
 
-class _SliderCardState extends State<SliderCard> {
+class _SingleSliderCardState extends State<SingleSliderCard> {
+
 
   bool loading=false;
 
   @override
   Widget build(BuildContext context) {
-
-
     return Container(
       margin:  const EdgeInsets.only(left: 16,right: 16),
       decoration: CardDecoration(16),
@@ -47,45 +49,32 @@ class _SliderCardState extends State<SliderCard> {
                             borderRadius: BorderRadius.circular(8))),
                   ),
                   child: Header5Text("save",textStyle: TextStyle(color: Colors.white)),onPressed: () async {
-                   await _saveConfiguration(context);
+                  await _saveConfiguration(context);
                 },),
               ),flex: 1,)
             ],
           ),
           Row(children: [
             Expanded(child: widget.leadingIcon,flex: 1,),
-            Expanded(flex: 5,child:  RangeSlider(
-              activeColor: Sensor.getSensorColor(widget.text),
-              min: widget.min,
-              max: widget.max,
-              divisions: 100,
-              values: widget.selectRange,
-              onChanged: (RangeValues newRange){
-                setState(() {
-                  widget.selectRange=newRange;
-                });
-              },
-            ),),
-
+            Expanded(flex: 5,child:  Slider(
+                activeColor: Sensor.getSensorColor(widget.text),
+                min: 0,
+                max: widget.max,
+                value: widget.value,
+                onChanged: (newValue){
+                  setState(() {
+                    widget.value=newValue;
+                  });
+                }),),
           ],),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-            Header3Text('min: ${widget.selectRange.start.toInt()}${Sensor.getSensorUnit(widget.text)}',
-                textStyle: TextStyle(color: Sensor.getSensorColor(widget.text))),
-            Header3Text('max: ${widget.selectRange.end.toInt()}${Sensor.getSensorUnit(widget.text)}',
-                textStyle: TextStyle(color: Sensor.getSensorColor(widget.text))),
-          ],),
-
+           Header3Text('value: ${widget.value.toInt()}${Sensor.getSensorUnit(widget.text)}',
+            textStyle: TextStyle(color: Sensor.getSensorColor(widget.text))),
           SizedBox(height: 8,),
         ],
-      ):Loading(),
+      ): Loading(),
 
     );
   }
-
-
-
 
   Future<void> _saveConfiguration(BuildContext context) async {
     showDialog(
@@ -101,8 +90,7 @@ class _SliderCardState extends State<SliderCard> {
           TextButton(child: Header3Text('Yes',textStyle: TextStyle(color: Colors.blueAccent)), onPressed: () async {
             Navigator.pop(context);
             _enterLoading();
-            await User().UserUpdate_Configuration(widget.plant.PlantID, Configuration.getConfigurationID(widget.text),
-                widget.selectRange.start.toInt().toDouble(), widget.selectRange.end);
+            await User().UserUpdate_Configuration(widget.plant.PlantID, Configuration.getConfigurationID(widget.text), widget.value.toInt().toDouble(), null);
             _leaveLoading();
           })
         ],),);
@@ -119,4 +107,6 @@ class _SliderCardState extends State<SliderCard> {
       loading=false;
     });
   }
+
+
 }
